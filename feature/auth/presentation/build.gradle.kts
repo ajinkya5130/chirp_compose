@@ -11,8 +11,8 @@ kotlin {
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
         namespace = "com.plcoding.auth.presentation"
-        compileSdk = 36
-        minSdk = 24
+        compileSdk = libs.versions.projectTargetSdkVersion.get().toInt()
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
 
         withHostTestBuilder {
         }
@@ -61,12 +61,12 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
-            }
-        }
 
-        commonTest {
-            dependencies {
-                implementation(libs.kotlin.test)
+                implementation(projects.feature.auth.domain)
+                implementation(projects.core.domain)
+                implementation(projects.core.designsystem)
+                implementation(projects.core.presentation)
+
             }
         }
 
@@ -75,14 +75,6 @@ kotlin {
                 // Add Android-specific dependencies here. Note that this source set depends on
                 // commonMain by default and will correctly pull the Android artifacts of any KMP
                 // dependencies declared in commonMain.
-            }
-        }
-
-        getByName("androidDeviceTest") {
-            dependencies {
-                implementation(libs.androidx.runner)
-                implementation(libs.androidx.test.core)
-                implementation(libs.androidx.junit)
             }
         }
 

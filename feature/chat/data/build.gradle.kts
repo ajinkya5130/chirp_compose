@@ -11,8 +11,8 @@ kotlin {
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
         namespace = "com.plcoding.chat.data"
-        compileSdk = 36
-        minSdk = 24
+        compileSdk = libs.versions.projectTargetSdkVersion.get().toInt()
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
 
         withHostTestBuilder {
         }
@@ -61,6 +61,10 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
+                implementation(projects.core.domain)
+                implementation(projects.feature.chat.domain)
+                implementation(projects.feature.chat.database)
+
             }
         }
 
