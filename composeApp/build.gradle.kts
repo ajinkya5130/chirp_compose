@@ -3,7 +3,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.application)
+    //alias(libs.plugins.android.application)
+    alias(libs.plugins.convention.android.application)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose.hot.reload)
@@ -69,7 +70,8 @@ kotlin {
     }
 }
 
-android {
+// Note: below complete code we extracted to AndroidApplicationConventionPlugin.kt file
+/*android {
     namespace = "com.plcoding.chirp"
     compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
@@ -94,7 +96,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-}
+}*/
 
 dependencies {
     debugImplementation(compose.uiTooling)

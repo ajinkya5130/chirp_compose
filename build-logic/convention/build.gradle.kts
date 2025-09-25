@@ -24,3 +24,21 @@ kotlin {
     }
     //jvmToolchain(17)
 }
+tasks {
+    validatePlugins {
+        enableStricterValidation = true
+        //ignoreFailures = true
+        failOnWarning = true
+    }
+
+}
+
+gradlePlugin {
+    plugins {
+        register("androidApplication") {
+            id = "com.plcoding.convention.android.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
+
+        }
+    }
+}
