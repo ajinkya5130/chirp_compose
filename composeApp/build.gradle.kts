@@ -1,14 +1,7 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
-    //alias(libs.plugins.android.application)
-//    alias(libs.plugins.convention.android.application)
-    alias(libs.plugins.convention.android.application.compose)
-
-    alias(libs.plugins.compose.multiplatform)
-    //  alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.convention.cmp.application)
     alias(libs.plugins.compose.hot.reload)
 }
 
@@ -19,17 +12,10 @@ kotlin {
         }
     }
 
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
 
-    jvm()
+    /*
+    //for time being commented out , because of build issue
+    jvm()*/
 
     sourceSets {
         androidMain.dependencies {
@@ -62,10 +48,12 @@ kotlin {
             implementation(libs.jetbrains.lifecycle.compose)
         }
 
+        /*
+        //we can configure later when we build desktop app
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
-        }
+        }*/
         iosMain.dependencies {
 
         }
@@ -100,10 +88,15 @@ kotlin {
     }
 }*/
 
+/*
+//Note: below complete code we extracted to CMPApplicationConventionPlugin.kt file
 dependencies {
     debugImplementation(compose.uiTooling)
-}
+}*/
 
+
+/*
+//for time being commented out , because of build issue
 compose.desktop {
     application {
         mainClass = "com.plcoding.chirp.MainKt"
@@ -114,4 +107,4 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
-}
+}*/
