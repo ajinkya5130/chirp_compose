@@ -1,3 +1,3 @@
 package com.plcoding.chat.data
 
-actual fun platform() = "Android"
+public actual fun platform(): String = "Android"

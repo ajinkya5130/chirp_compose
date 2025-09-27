@@ -1,3 +1,3 @@
 package com.plcoding.auth.domain
 
-actual fun platform() = "iOS"
+public actual fun platform(): String = "iOS"

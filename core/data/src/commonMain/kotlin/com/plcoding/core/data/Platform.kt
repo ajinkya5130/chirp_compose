@@ -1,3 +1,3 @@
 package com.plcoding.core.data
 
-expect fun platform(): String
+public expect fun platform(): String

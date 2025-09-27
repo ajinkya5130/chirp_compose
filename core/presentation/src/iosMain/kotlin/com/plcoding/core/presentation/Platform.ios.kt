@@ -1,3 +1,3 @@
 package com.plcoding.core.presentation
 
-actual fun platform() = "iOS"
+public actual fun platform(): String = "iOS"

@@ -1,3 +1,3 @@
 package com.plcoding.chat.domain
 
-expect fun platform(): String
+public expect fun platform(): String

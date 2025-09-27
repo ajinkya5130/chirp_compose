@@ -1,3 +1,3 @@
 package com.plcoding.core.designsystem
 
-expect fun platform(): String
+public expect fun platform(): String
