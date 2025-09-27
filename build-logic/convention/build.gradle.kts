@@ -52,9 +52,22 @@ gradlePlugin {
             implementationClass = "CMPApplicationConventionPlugin"
 
         }
+
         register("kmpLibrary") {
             id = "com.plcoding.convention.kmp.library"
             implementationClass = "KmpApplicationConventionPlugin"
+
+        }
+
+        register("cmpLibrary") {
+            id = "com.plcoding.convention.cmp.library"
+            implementationClass = "CmpLibraryConventionPlugin"
+
+        }
+
+        register("cmpFetaure") {
+            id = "com.plcoding.convention.cmp.feature"
+            implementationClass = "CmpFeatureConventionPlugin"
 
         }
     }
