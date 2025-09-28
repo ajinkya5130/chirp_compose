@@ -12,6 +12,8 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kotlin.stdlib)
+                implementation(projects.core.domain)
+                implementation(compose.components.resources)
                 // Add KMP dependencies here
             }
         }
