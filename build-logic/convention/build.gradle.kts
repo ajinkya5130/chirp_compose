@@ -8,6 +8,7 @@ dependencies {
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
     compileOnly(libs.android.tools.common)
+    compileOnly(libs.androidx.room.gradle.plugin)
     implementation(libs.buildkonfig.gradle.plugin)
     implementation(libs.buildkonfig.compiler)
 
@@ -76,6 +77,12 @@ gradlePlugin {
         register("bildKonfig") {
             id = "com.plcoding.convention.bildKonfig"
             implementationClass = "BuildKonfigConventionPlugin"
+
+        }
+
+        register("roomDb") {
+            id = "com.plcoding.convention.roomDb"
+            implementationClass = "RoomConventionPlugin"
 
         }
     }
