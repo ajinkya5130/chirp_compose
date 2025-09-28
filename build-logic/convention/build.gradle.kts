@@ -8,6 +8,8 @@ dependencies {
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
     compileOnly(libs.android.tools.common)
+    implementation(libs.buildkonfig.gradle.plugin)
+    implementation(libs.buildkonfig.compiler)
 
 }
 
@@ -68,6 +70,12 @@ gradlePlugin {
         register("cmpFetaure") {
             id = "com.plcoding.convention.cmp.feature"
             implementationClass = "CmpFeatureConventionPlugin"
+
+        }
+
+        register("bildKonfig") {
+            id = "com.plcoding.convention.bildKonfig"
+            implementationClass = "BuildKonfigConventionPlugin"
 
         }
     }
