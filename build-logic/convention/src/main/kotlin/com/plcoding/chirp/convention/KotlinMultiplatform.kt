@@ -27,7 +27,8 @@ internal fun Project.configureKotlinMultiplatform() {
         }
 
         compilerOptions {
-            freeCompilerArgs.add("-Xexplicit-api=strict")
+            //freeCompilerArgs.add("-Xexplicit-api=strict")
+            //freeCompilerArgs.add("-Xexplicit-api=warning")
             freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
             freeCompilerArgs.add("-opt-in=kotlin.time.ExperimentalTime")
         }
