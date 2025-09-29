@@ -19,6 +19,7 @@ class CmpLibraryConventionPlugin : Plugin<Project> {
                 "commonMainImplementation"(
                     libs.findLibrary("jetbrains-compose-material-icon-core").get()
                 )
+                "debugImplementation"(libs.findLibrary("androidx-compose-ui-tooling").get())
             }
         }
 
