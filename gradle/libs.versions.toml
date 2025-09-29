@@ -2,6 +2,7 @@
 # Build tools
 agp = "8.11.1"
 composeBom = "2025.07.00"
+kermitVersion = "2.0.8"
 kotlin = "2.2.0"
 ksp = "2.2.0-2.0.2"
 google-services = "4.4.3"
@@ -47,6 +48,7 @@ coil = "3.3.0"
 coil-network = "3.3.0"
 moko = "0.19.1"
 buildkonfig = "0.17.1"
+kermit = "2.0.4"
 
 projectApplicationId = "com.plcoding.chirp"
 projectVersionName = "1.0"
@@ -67,6 +69,7 @@ androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = 
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "compose-lifecycle" }
 androidx-material3 = { module = "androidx.compose.material3:material3" }
 androidx-ui = { module = "androidx.compose.ui:ui" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermitVersion" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
@@ -145,6 +148,7 @@ androidx-room-gradle-plugin = { module = "androidx.room:room-gradle-plugin", ver
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 buildkonfig-gradle-plugin = { group = "com.codingfeline.buildkonfig", name = "buildkonfig-gradle-plugin", version.ref = "buildkonfig" }
 buildkonfig-compiler = { group = "com.codingfeline.buildkonfig", name = "buildkonfig-compiler", version.ref = "buildkonfig" }
+
 
 
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
