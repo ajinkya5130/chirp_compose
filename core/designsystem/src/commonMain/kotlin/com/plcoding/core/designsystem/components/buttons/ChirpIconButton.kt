@@ -1,4 +1,4 @@
-package com.plcoding.core.designsystem.components
+package com.plcoding.core.designsystem.components.buttons
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.size
