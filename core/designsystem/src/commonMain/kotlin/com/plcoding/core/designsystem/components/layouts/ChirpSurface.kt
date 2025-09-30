@@ -4,19 +4,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import chirp.core.designsystem.generated.resources.Res
-import chirp.core.designsystem.generated.resources.logo_chirp
+import com.plcoding.core.designsystem.components.branding.ChirpBrandingLogo
 import com.plcoding.core.designsystem.dimesions.LocalDim
 import com.plcoding.core.designsystem.theme.ChirpTheme
-import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -36,7 +35,12 @@ fun ChirpSurface(
                 color = MaterialTheme.colorScheme.surface, modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(topStart = dimen.dimen20dp, topEnd = dimen.dimen20dp)
             ) {
-                Column(modifier = Modifier.fillMaxSize()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimen.dimen16dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
                     content()
                 }
             }
@@ -54,12 +58,7 @@ fun ChirpSurfacePreview() {
         ChirpSurface(
             modifier = Modifier.fillMaxSize(),
             header = {
-                Icon(
-                    vectorResource(Res.drawable.logo_chirp),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(LocalDim.current.dimen32dp)
-                )
+                ChirpBrandingLogo()
             },
             content = {
                 Text(
