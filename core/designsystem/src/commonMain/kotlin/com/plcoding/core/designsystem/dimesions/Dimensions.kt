@@ -12,6 +12,7 @@ val LocalFont = compositionLocalOf { FontDimensions() }
 
 data class Dimensions(
     val dimenMinus48dp: Dp = (-48).dp,
+    val dimenMinus25dp: Dp = (-25).dp,
     val default: Dp = 0.dp,
     val dimen1dp: Dp = 1.dp,
     val dimen2dp: Dp = 2.dp,

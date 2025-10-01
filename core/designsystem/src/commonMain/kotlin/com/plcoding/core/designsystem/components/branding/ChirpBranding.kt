@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import chirp.core.designsystem.generated.resources.Res
 import chirp.core.designsystem.generated.resources.logo_chirp
+import chirp.core.designsystem.generated.resources.success_checkmark
+import com.plcoding.core.designsystem.theme.extended
 import org.jetbrains.compose.resources.vectorResource
 
 @Composable
@@ -14,6 +16,16 @@ fun ChirpBrandingLogo(modifier: Modifier = Modifier) {
         vectorResource(Res.drawable.logo_chirp),
         contentDescription = null,
         tint = MaterialTheme.colorScheme.primary,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun ChirpSuccessLogo(modifier: Modifier = Modifier) {
+    Icon(
+        vectorResource(Res.drawable.success_checkmark),
+        contentDescription = null,
+        tint = MaterialTheme.colorScheme.extended.success,
         modifier = modifier
     )
 }
