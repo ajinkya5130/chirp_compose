@@ -1,7 +1,7 @@
 /**
 Created by ajinkya on 01/10/25
  */
-package com.plcoding.chat.presentation.register
+package com.plcoding.auth.presentation.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,7 +30,9 @@ class RegisterScreenViewModel : ViewModel() {
 
     fun onAction(action: RegisterScreenAction) {
         when (action) {
-            else -> TODO("Handle actions")
+            else -> {
+
+            }
         }
     }
 

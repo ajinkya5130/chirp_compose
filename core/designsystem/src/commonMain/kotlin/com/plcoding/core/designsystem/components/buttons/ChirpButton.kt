@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -109,27 +110,30 @@ fun ChirpButton(
 
         else -> null
     }
+    val dimen = LocalDim.current
     Button(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
-        shape = RoundedCornerShape(LocalDim.current.dimen8dp),
+        shape = RoundedCornerShape(dimen.dimen8dp),
         colors = color,
         border = border
     ) {
 
         Box(
             contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .padding(dimen.dimen6dp)
         ) {
             CircularProgressIndicator(
                 modifier = Modifier
-                    .size(LocalDim.current.dimen15dp)
+                    .size(dimen.dimen15dp)
                     .alpha(alpha = if (isLoading) 1f else 0f),
                 strokeWidth = 1.5.dp,
                 color = Color.Red
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(LocalDim.current.dimen8dp),
+                horizontalArrangement = Arrangement.spacedBy(dimen.dimen8dp),
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.alpha(alpha = if (isLoading) 0f else 1f)
             )

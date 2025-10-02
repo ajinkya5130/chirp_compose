@@ -52,26 +52,28 @@ fun ChirpAdaptiveFormLayout(
                     .consumeWindowInsets(WindowInsets.navigationBars)
                     .consumeWindowInsets(WindowInsets.displayCutout),
                 header = {
-                    //ChirpSpacerHeight(dimen.dimen32dp)
+                    ChirpSpacerHeight(dimen.dimen32dp)
                     logo()
-                    //ChirpSpacerHeight(dimen.dimen32dp)
+                    ChirpSpacerHeight(dimen.dimen32dp)
                 }) {
                 ChirpSpacerHeight(value = dimen.dimen24dp)
                 AuthHeaderSection(
-                    headerText = "Welcome",
+                    headerText = header,
                     headerColor = headerColor,
                     errorText = errorText
                 )
                 ChirpSpacerHeight(value = dimen.dimen24dp)
                 formContent()
-
             }
         }
 
         DeviceConfiguration.MOBILE_LANDSCAPE -> {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(dimen.dimen16dp),
-                modifier = modifier.fillMaxSize().consumeWindowInsets(WindowInsets.displayCutout)
+                modifier = modifier
+                    .fillMaxSize()
+                    .consumeWindowInsets(WindowInsets.displayCutout)
+                    .consumeWindowInsets(WindowInsets.navigationBars)
             ) {
                 Column(
                     modifier = Modifier.weight(1f),
@@ -80,9 +82,10 @@ fun ChirpAdaptiveFormLayout(
                     ChirpSpacerHeight(value = dimen.dimen16dp)
                     logo()
                     AuthHeaderSection(
-                        headerText = "Welcome to Chirp!",
+                        headerText = header,
                         headerColor = headerColor,
-                        errorText = errorText
+                        errorText = errorText,
+                        textAlign = TextAlign.Start,
                     )
                 }
                 Column(
@@ -117,13 +120,13 @@ fun ChirpAdaptiveFormLayout(
                         .clip(shape = RoundedCornerShape(dimen.dimen32dp))
                         .background(MaterialTheme.colorScheme.surface)
                         .padding(horizontal = dimen.dimen24dp, vertical = dimen.dimen32dp),
-                    verticalArrangement = Arrangement.spacedBy(dimen.dimen24dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     AuthHeaderSection(
                         headerText = header,
                         headerColor = headerColor,
-                        errorText = errorText
+                        errorText = errorText,
+                        textAlign = TextAlign.Start,
                     )
                 }
 
@@ -138,12 +141,13 @@ fun ColumnScope.AuthHeaderSection(
     headerText: String,
     headerColor: Color,
     errorText: String? = null,
+    textAlign: TextAlign = TextAlign.Center,
 ) {
     Text(
         text = headerText,
         style = MaterialTheme.typography.titleLarge,
         color = headerColor,
-        textAlign = TextAlign.Center,
+        textAlign = textAlign,
         modifier = Modifier.fillMaxWidth()
     )
     AnimatedVisibility(errorText != null) {
@@ -154,7 +158,7 @@ fun ColumnScope.AuthHeaderSection(
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
+                textAlign = textAlign
             )
         }
 
