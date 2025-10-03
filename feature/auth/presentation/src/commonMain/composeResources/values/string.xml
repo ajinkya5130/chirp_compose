@@ -6,6 +6,7 @@
     <string name="email">Email</string>
     <string name="password_hint">Use 9+ characters, at least one digit and one uppercase letter</string>
     <string name="username_hint">Use between 3 and 20 characters for your username</string>
+    <string name="error_invalid_username">The username must be between 3 and 20 characters</string>
     <string name="error_account_exist">An account with that email or username already exists</string>
     <string name="password_error">Password must be at least 9 characters and include one digit and one uppercase letter</string>
     <string name="email_error">This is not a valid email</string>

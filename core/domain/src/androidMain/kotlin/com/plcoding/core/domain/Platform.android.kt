@@ -1,3 +1,3 @@
 package com.plcoding.core.domain
 
-public actual fun platform(): String = "Android"
+actual fun platform(): String = "Android"
