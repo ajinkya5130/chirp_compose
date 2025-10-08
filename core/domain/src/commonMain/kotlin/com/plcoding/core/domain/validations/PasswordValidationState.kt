@@ -1,4 +1,4 @@
-package com.plcoding.core.domain.utils
+package com.plcoding.core.domain.validations
 
 data class PasswordValidationState(
     val hasMinLength: Boolean = false,

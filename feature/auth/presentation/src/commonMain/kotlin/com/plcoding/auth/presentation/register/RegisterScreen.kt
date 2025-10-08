@@ -29,16 +29,26 @@ import com.plcoding.core.designsystem.components.textfields.ChirpPasswordField
 import com.plcoding.core.designsystem.components.textfields.ChirpTextField
 import com.plcoding.core.designsystem.dimesions.LocalDim
 import com.plcoding.core.designsystem.theme.ChirpTheme
+import com.plcoding.core.presentation.utils.ObserveAsEvent
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun RegisterScreenRoot(
     viewModel: RegisterScreenViewModel = viewModel(),
+    onRegisterSuccess: (email: String) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember {
         SnackbarHostState()
+    }
+
+    ObserveAsEvent(viewModel.events) { event ->
+        when (event) {
+            is RegisterEvent.Success -> {
+                onRegisterSuccess(event.email)
+            }
+        }
     }
 
     RegisterScreen(
