@@ -14,4 +14,7 @@
     <string name="username_placeholder">Chirp</string>
     <string name="email_placeholder">abc@xyz.com</string>
     <string name="login">Log In</string>
+    <string name="email_authentication_email_sent">We’ve sent verification email to %1$s</string>
+    <string name="chirp_successfully_created">Chirp successfully created!</string>
+    <string name="resend_verification_email">Resend verification email</string>
 </resources>
