@@ -18,6 +18,7 @@ kotlin {
                 implementation(projects.core.domain)
                 implementation(libs.bundles.ktor.common)
                 implementation(libs.kermit)
+                implementation(libs.koin.core)
 
             }
         }

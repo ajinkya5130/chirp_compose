@@ -85,7 +85,6 @@ fun ChirpTextFieldEmptyPreview() {
             supportingText = "Please enter your mail",
             modifier = Modifier.width(300.dp),
             placeHolder = "test@test.com",
-
             )
     }
 }

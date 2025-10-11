@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import chirp.feature.auth.presentation.generated.resources.Res
 import chirp.feature.auth.presentation.generated.resources.email
 import chirp.feature.auth.presentation.generated.resources.email_placeholder
@@ -32,10 +32,11 @@ import com.plcoding.core.designsystem.theme.ChirpTheme
 import com.plcoding.core.presentation.utils.ObserveAsEvent
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun RegisterScreenRoot(
-    viewModel: RegisterScreenViewModel = viewModel(),
+    viewModel: RegisterScreenViewModel = koinViewModel(),
     onRegisterSuccess: (email: String) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -95,7 +96,8 @@ internal fun RegisterScreen(
                 isError = state.emailError != null,
                 onFocusChanged = {
                     onAction(RegisterScreenAction.OnInputTextFocusGain)
-                }
+                },
+                keyboardType = KeyboardType.Email
             )
             ChirpSpacerHeight(LocalDim.current.dimen16dp)
             ChirpPasswordField(

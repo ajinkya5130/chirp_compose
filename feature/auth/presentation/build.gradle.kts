@@ -15,6 +15,7 @@ kotlin {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
 
+                implementation(libs.bundles.koin.common)
                 implementation(projects.feature.auth.domain)
                 implementation(projects.core.domain)
                 implementation(projects.core.designsystem)

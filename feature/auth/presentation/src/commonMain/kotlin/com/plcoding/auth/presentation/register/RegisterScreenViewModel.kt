@@ -3,6 +3,7 @@ Created by ajinkya on 01/10/25
  */
 package com.plcoding.auth.presentation.register
 
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import chirp.feature.auth.presentation.generated.resources.Res
@@ -21,6 +22,10 @@ import com.plcoding.core.presentation.utils.toUiText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -41,6 +46,7 @@ class RegisterScreenViewModel(
         .onStart {
             if (!hasLoadedInitialData) {
                 /** Load initial data here **/
+                observeValidInputState()
                 hasLoadedInitialData = true
             }
         }
@@ -49,6 +55,44 @@ class RegisterScreenViewModel(
             started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = RegisterScreenState()
         )
+
+    private val isEmailValidFlow = snapshotFlow {
+        state.value.emailTextState.text.toString()
+    }.map {
+        EmailValidator.validate(it)
+    }.distinctUntilChanged()
+
+    private val isPasswordValidFlow = snapshotFlow {
+        state.value.passwordTextState.text.toString()
+    }.map {
+        PasswordValidator.validate(it).isValidPassword
+    }.distinctUntilChanged()
+
+    private val isUserNameValidFlow = snapshotFlow {
+        state.value.userNameTextState.text.toString()
+    }.map {
+        it.length in 3..20
+    }.distinctUntilChanged()
+
+    private val isRegisteringFlow = state.map {
+        it.isRegistering
+    }.distinctUntilChanged()
+
+    private fun observeValidInputState() {
+        combine(
+            isEmailValidFlow,
+            isPasswordValidFlow,
+            isUserNameValidFlow,
+            isRegisteringFlow
+        ) { emailValid, passwordValid, userNameValid, isRegistering ->
+            val allValid = emailValid && passwordValid && userNameValid
+            _state.update {
+                it.copy(
+                    canRegister = allValid && !isRegistering
+                )
+            }
+        }.launchIn(viewModelScope)
+    }
 
     fun onAction(action: RegisterScreenAction) {
         when (action) {
