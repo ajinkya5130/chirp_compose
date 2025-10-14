@@ -1,6 +1,7 @@
 package com.plcoding.core.data.auth
 
 import com.plcoding.core.data.dto.requests.RegisterRequest
+import com.plcoding.core.data.dto.requests.ResendVerificationEmailRequest
 import com.plcoding.core.data.networking.constructRoute
 import com.plcoding.core.data.networking.post
 import com.plcoding.core.domain.auth.IAuthService
@@ -18,7 +19,12 @@ class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
             route = constructRoute("/auth/register"),
             body = RegisterRequest(email, password, username)
         )
+    }
 
-
+    override suspend fun resendVerificationEmail(email: String): EmptyResult<DataError.Remote> {
+        return httpClient.post(
+            route = constructRoute("/auth/resend-verification"),
+            body = ResendVerificationEmailRequest(email)
+        )
     }
 }

@@ -25,6 +25,7 @@ fun ChirpSimpleSuccessLayout(
     icon: @Composable () -> Unit,
     primaryButtonText: @Composable () -> Unit,
     secondaryButton: @Composable (() -> Unit)? = null,
+    secondaryErrorText: String? = null,
     modifier: Modifier = Modifier,
 ) {
     val dimen = LocalDim.current
@@ -60,6 +61,14 @@ fun ChirpSimpleSuccessLayout(
                 secondaryButton.invoke()
             }
             ChirpSpacerHeight(dimen.dimen8dp)
+            if (secondaryErrorText != null) {
+                Text(
+                    secondaryErrorText,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 

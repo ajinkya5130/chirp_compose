@@ -9,4 +9,8 @@ interface IAuthService {
         password: String,
         username: String,
     ): EmptyResult<DataError.Remote>
+
+    suspend fun resendVerificationEmail(
+        email: String,
+    ): EmptyResult<DataError.Remote>
 }

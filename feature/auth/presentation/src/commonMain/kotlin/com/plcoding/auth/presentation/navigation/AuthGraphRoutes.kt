@@ -14,7 +14,8 @@ sealed interface AuthGraphRoutes {
     data object Register : AuthGraphRoutes
 
     @Serializable
-    data class RegisterSuccess(val email: String) : AuthGraphRoutes
+    data class RegisterSuccess(val email: String) :
+        AuthGraphRoutes //this email key must be match with KEY_EMAIL_STRING
 
     @Serializable
     data object ForgotPassword : AuthGraphRoutes
