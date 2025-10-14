@@ -1,7 +1,7 @@
 package com.plcoding.chirp
 
 import androidx.compose.runtime.Composable
-import com.plcoding.auth.presentation.register.RegisterScreenRoot
+import com.plcoding.chirp.navigation.NavigationRoot
 import com.plcoding.core.designsystem.theme.ChirpTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -9,7 +9,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     ChirpTheme {
-        RegisterScreenRoot()
+        NavigationRoot()
         /*
         var showContent by remember { mutableStateOf(false) }
         Column(

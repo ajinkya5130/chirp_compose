@@ -33,6 +33,8 @@ kotlin {
             implementation(projects.feature.auth.domain)
             implementation(projects.feature.auth.presentation)
 
+            implementation(libs.jetbrains.compose.navigation)
+
             implementation(projects.feature.chat.data)
             implementation(projects.feature.chat.domain)
             implementation(projects.feature.chat.presentation)

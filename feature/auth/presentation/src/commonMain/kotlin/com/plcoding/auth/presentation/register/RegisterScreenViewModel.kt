@@ -129,6 +129,7 @@ class RegisterScreenViewModel(
                         isRegistering = false,
                     )
                 }
+                eventChannel.send(RegisterEvent.Success(state.value.emailTextState.text.toString()))
 
             }.onFailure { it ->
                 val registrationError = when (it) {
