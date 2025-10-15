@@ -21,7 +21,7 @@ import com.plcoding.core.designsystem.components.branding.ChirpSuccessLogo
 import com.plcoding.core.designsystem.components.buttons.ChirpButton
 import com.plcoding.core.designsystem.components.buttons.ChirpButtonStyle
 import com.plcoding.core.designsystem.components.layouts.ChirpAdaptiveResultLayout
-import com.plcoding.core.designsystem.components.layouts.ChirpSimpleSuccessLayout
+import com.plcoding.core.designsystem.components.layouts.ChirpSimpleResultLayout
 import com.plcoding.core.designsystem.components.layouts.ChirpSnackBar
 import com.plcoding.core.designsystem.theme.ChirpTheme
 import com.plcoding.core.presentation.utils.ObserveAsEvent
@@ -66,7 +66,7 @@ internal fun RegisterSuccessScreen(
         snackBarHostState = snackBarHostState,
     ) {
         ChirpAdaptiveResultLayout {
-            ChirpSimpleSuccessLayout(
+            ChirpSimpleResultLayout(
                 title = stringResource(Res.string.chirp_successfully_created),
                 description = stringResource(
                     Res.string.email_authentication_email_sent,

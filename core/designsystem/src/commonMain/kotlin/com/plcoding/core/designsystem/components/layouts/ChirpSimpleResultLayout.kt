@@ -1,6 +1,7 @@
 package com.plcoding.core.designsystem.components.layouts
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -19,10 +20,10 @@ import com.plcoding.core.designsystem.theme.extended
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ChirpSimpleSuccessLayout(
+fun ChirpSimpleResultLayout(
     title: String,
     description: String,
-    icon: @Composable () -> Unit,
+    icon: @Composable ColumnScope.() -> Unit,
     primaryButtonText: @Composable () -> Unit,
     secondaryButton: @Composable (() -> Unit)? = null,
     secondaryErrorText: String? = null,
@@ -78,7 +79,7 @@ fun ChirpSimpleSuccessLayout(
 @Preview(showBackground = true)
 fun ChirpSimpleSuccessLayoutPreview() {
     ChirpTheme {
-        ChirpSimpleSuccessLayout(
+        ChirpSimpleResultLayout(
             "Chirp Success",
             "Registered !",
             icon = {
@@ -105,7 +106,7 @@ fun ChirpSimpleSuccessLayoutPreview() {
 @Preview
 fun ChirpSimpleSuccessLayoutDarkPreview() {
     ChirpTheme(darkTheme = true) {
-        ChirpSimpleSuccessLayout(
+        ChirpSimpleResultLayout(
             "Chirp Success",
             "Registered !",
             icon = {

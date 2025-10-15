@@ -18,4 +18,11 @@
     <string name="chirp_successfully_created">Chirp successfully created!</string>
     <string name="resend_verification_email">Resend verification email</string>
     <string name="verification_email_resent">Successfully Verification email sent</string>
+    <string name="verifying_account">Verifying your account...</string>
+    <string name="email_verified_successfully">Email verified successfully</string>
+    <string name="email_verified_successfully_desc">Your email is verified successfully</string>
+    <string name="email_verified_failed">Failed to verify your email</string>
+    <string name="email_verified_failed_desc">Unable to verify your email.Maybe link expired or invalid.</string>
+    <string name="close">Close</string>
+
 </resources>

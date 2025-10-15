@@ -1,5 +1,7 @@
 package com.plcoding.core.designsystem.components.branding
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -26,6 +28,16 @@ fun ChirpSuccessLogo(modifier: Modifier = Modifier) {
         vectorResource(Res.drawable.success_checkmark),
         contentDescription = null,
         tint = MaterialTheme.colorScheme.extended.success,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun ChirpFailureLogo(modifier: Modifier = Modifier) {
+    Icon(
+        Icons.Default.Close,
+        contentDescription = null,
+        tint = MaterialTheme.colorScheme.error,
         modifier = modifier
     )
 }
