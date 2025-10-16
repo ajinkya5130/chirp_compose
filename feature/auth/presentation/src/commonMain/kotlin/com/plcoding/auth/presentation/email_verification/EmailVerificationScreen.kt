@@ -18,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import chirp.feature.auth.presentation.generated.resources.Res
 import chirp.feature.auth.presentation.generated.resources.close
 import chirp.feature.auth.presentation.generated.resources.email_verified_failed
@@ -39,10 +38,11 @@ import com.plcoding.core.designsystem.theme.ChirpTheme
 import com.plcoding.core.designsystem.theme.extended
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun EmailVerificationScreenRoot(
-    viewModel: EmailVerificationScreenViewModel = viewModel(),
+    viewModel: EmailVerificationViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -67,14 +67,14 @@ fun EmailVerificationScreenScreen(
 
             state.isVerified -> {
                 //show success screen
-                VerificationFailedContent(onAction)
+                VerificationFailedContent()
                 //SuccessContent(onAction)
 
             }
 
             else -> {
                 //show verification screen
-                SuccessContent(onAction)
+                SuccessContent()
             }
         }
 
@@ -83,7 +83,7 @@ fun EmailVerificationScreenScreen(
 }
 
 @Composable
-fun VerificationFailedContent(onAction: (EmailVerificationScreenAction) -> Unit = {}) {
+fun VerificationFailedContent() {
     ChirpSimpleResultLayout(
         title = stringResource(Res.string.email_verified_failed),
         description = stringResource(Res.string.email_verified_failed_desc),
@@ -95,7 +95,7 @@ fun VerificationFailedContent(onAction: (EmailVerificationScreenAction) -> Unit 
         primaryButtonText = {
             ChirpButton(
                 text = stringResource(Res.string.close), onClick = {
-                    onAction(EmailVerificationScreenAction.onCloseClick)
+                    //onAction(EmailVerificationScreenAction.OnCloseClick)
                 },
                 style = ChirpButtonStyle.SECONDARY,
                 modifier = Modifier.fillMaxWidth()
@@ -105,7 +105,7 @@ fun VerificationFailedContent(onAction: (EmailVerificationScreenAction) -> Unit 
 }
 
 @Composable
-fun SuccessContent(onAction: (EmailVerificationScreenAction) -> Unit = {}) {
+fun SuccessContent() {
     ChirpSimpleResultLayout(
         title = stringResource(Res.string.email_verified_successfully),
         description = stringResource(Res.string.email_verified_successfully_desc),
@@ -115,7 +115,7 @@ fun SuccessContent(onAction: (EmailVerificationScreenAction) -> Unit = {}) {
         primaryButtonText = {
             ChirpButton(
                 text = stringResource(Res.string.login), onClick = {
-                    onAction(EmailVerificationScreenAction.onLoginClick)
+
                 },
                 modifier = Modifier.fillMaxWidth()
             )

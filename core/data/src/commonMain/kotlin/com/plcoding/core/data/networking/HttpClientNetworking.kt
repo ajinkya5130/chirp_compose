@@ -37,7 +37,7 @@ suspend inline fun <reified Request, reified Response : Any> HttpClient.post(
 ): Result<Response, DataError.Remote> {
     return safeCall {
         post {
-            url(route)
+            url(constructRoute(route))
             queryParams.forEach { (key, value) ->
                 parameter(key, value)
             }
@@ -47,19 +47,18 @@ suspend inline fun <reified Request, reified Response : Any> HttpClient.post(
     }
 }
 
-suspend inline fun <reified Request, reified Response : Any> HttpClient.get(
+suspend inline fun <reified Response : Any> HttpClient.get(
     route: String,
     queryParams: Map<String, String> = emptyMap(),
-    body: Request? = null,
     crossinline builder: HttpRequestBuilder.() -> Unit = {},
 ): Result<Response, DataError.Remote> {
     return safeCall {
         get {
-            url(route)
+            url(constructRoute(route))
             queryParams.forEach { (key, value) ->
                 parameter(key, value)
             }
-            setBody(body)
+            //setBody(body)
             builder()
         }
     }
@@ -73,7 +72,7 @@ suspend inline fun <reified Request, reified Response : Any> HttpClient.delete(
 ): Result<Response, DataError.Remote> {
     return safeCall {
         delete {
-            url(route)
+            url(constructRoute(route))
             queryParams.forEach { (key, value) ->
                 parameter(key, value)
             }
@@ -91,7 +90,7 @@ suspend inline fun <reified Request, reified Response : Any> HttpClient.put(
 ): Result<Response, DataError.Remote> {
     return safeCall {
         put {
-            url(route)
+            url(constructRoute(route))
             queryParams.forEach { (key, value) ->
                 parameter(key, value)
             }
