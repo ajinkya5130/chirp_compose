@@ -7,9 +7,10 @@ import com.plcoding.core.data.networking.post
 import com.plcoding.core.domain.auth.IAuthService
 import com.plcoding.core.domain.utils.DataError
 import com.plcoding.core.domain.utils.EmptyResult
+import com.plcoding.core.domain.utils.UrlConstants
+import com.plcoding.core.domain.utils.UrlConstants.KEY_TOKEN
 import io.ktor.client.HttpClient
 
-const val KEY_TOKEN = "token"
 class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
     override suspend fun register(
         email: String,
@@ -31,7 +32,7 @@ class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
 
     override suspend fun verifyEmail(token: String): EmptyResult<DataError.Remote> {
         return httpClient.get(
-            route = "/auth/verify",
+            route = UrlConstants.API_ENDPOINT_VERIFY_EMAIL,
             queryParams = mapOf(KEY_TOKEN to token)
         )
     }

@@ -1,8 +1,8 @@
 package com.plcoding.core.data.networking
 
 import com.plcoding.core.data.BuildKonfig
-import com.plcoding.core.data.networking.utils.UrlConstants.TIMEOUT_VALUE
 import com.plcoding.core.domain.logging.CustomLogger
+import com.plcoding.core.domain.utils.UrlConstants.TIMEOUT_VALUE
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout

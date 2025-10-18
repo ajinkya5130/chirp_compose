@@ -1,8 +1,8 @@
 package com.plcoding.core.data.networking
 
-import com.plcoding.core.data.networking.utils.UrlConstants
 import com.plcoding.core.domain.utils.DataError
 import com.plcoding.core.domain.utils.Result
+import com.plcoding.core.domain.utils.UrlConstants
 import io.ktor.client.HttpClient
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body

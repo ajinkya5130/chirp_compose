@@ -10,6 +10,9 @@ struct iOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onOpenURL { URL in
+                    ExternalUriHandler.shared.onNewUri(uri: URL.absoluteString)
+                }
         }
     }
 
