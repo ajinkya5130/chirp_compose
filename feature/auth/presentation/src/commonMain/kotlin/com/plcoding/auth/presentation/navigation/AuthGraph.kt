@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import com.plcoding.auth.presentation.email_verification.EmailVerificationScreenRoot
+import com.plcoding.auth.presentation.login.LoginScreenRoot
 import com.plcoding.auth.presentation.register.RegisterScreenRoot
 import com.plcoding.auth.presentation.register.register_success.RegisterSuccessRoot
 import com.plcoding.core.domain.utils.UrlConstants
@@ -15,12 +16,42 @@ fun NavGraphBuilder.authGraph(
     onLoginSuccess: () -> Unit,
 ) {
     navigation<AuthGraphRoutes.Graph>(
-        startDestination = AuthGraphRoutes.Register
+        startDestination = AuthGraphRoutes.Login
     ) {
+
+        composable<AuthGraphRoutes.Login> {
+            LoginScreenRoot(
+                onLoginSuccess = onLoginSuccess,
+                onRegisterClick = {
+                    navController.navigate(AuthGraphRoutes.Register) {
+                        restoreState = true
+                        launchSingleTop = true
+                    }
+                },
+                onForgotPassword = {
+                    navController.navigate(AuthGraphRoutes.ForgotPassword)
+                }
+            )
+        }
+
+        composable<AuthGraphRoutes.ForgotPassword> {
+
+        }
+
         composable<AuthGraphRoutes.Register> {
             RegisterScreenRoot(
                 onRegisterSuccess = { email ->
                     navController.navigate(AuthGraphRoutes.RegisterSuccess(email))
+                },
+                onLoginClick = {
+                    navController.navigate(AuthGraphRoutes.Login) {
+                        popUpTo(AuthGraphRoutes.Register) {
+                            inclusive = true
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 }
             )
         }

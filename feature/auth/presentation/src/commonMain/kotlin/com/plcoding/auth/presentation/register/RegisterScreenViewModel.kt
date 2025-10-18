@@ -96,7 +96,7 @@ class RegisterScreenViewModel(
 
     fun onAction(action: RegisterScreenAction) {
         when (action) {
-            RegisterScreenAction.OnLoginClick -> Unit
+            //RegisterScreenAction.OnLoginClick -> Unit
             RegisterScreenAction.OnRegisterClick -> registerNewUser()
             RegisterScreenAction.OnTogglePasswordVisibilityClick -> {
                 _state.update {
