@@ -10,6 +10,6 @@ sealed interface LoginScreenAction {
     data object OnRegisterClick : LoginScreenAction
     data object OnForgotPasswordClick : LoginScreenAction
     data object OnTogglePasswordVisibilityClick : LoginScreenAction
-    data object OnInputTextFocusGain : LoginScreenAction
+    data object OnLoginSuccess : LoginScreenAction
 
 }

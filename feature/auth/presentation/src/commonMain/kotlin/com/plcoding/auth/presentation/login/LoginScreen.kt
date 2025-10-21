@@ -6,21 +6,29 @@ package com.plcoding.auth.presentation.login
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import chirp.feature.auth.presentation.generated.resources.Res
 import chirp.feature.auth.presentation.generated.resources.create_account
+import chirp.feature.auth.presentation.generated.resources.dismiss
 import chirp.feature.auth.presentation.generated.resources.email
+import chirp.feature.auth.presentation.generated.resources.email_not_verified_message
+import chirp.feature.auth.presentation.generated.resources.email_not_verified_title
 import chirp.feature.auth.presentation.generated.resources.email_placeholder
 import chirp.feature.auth.presentation.generated.resources.forgot_password
 import chirp.feature.auth.presentation.generated.resources.login
 import chirp.feature.auth.presentation.generated.resources.password
+import chirp.feature.auth.presentation.generated.resources.resend_verification_email
 import chirp.feature.auth.presentation.generated.resources.welcome_back
 import com.plcoding.core.designsystem.components.branding.ChirpBrandingLogo
 import com.plcoding.core.designsystem.components.buttons.ChirpButton
@@ -31,6 +39,7 @@ import com.plcoding.core.designsystem.components.textfields.ChirpPasswordField
 import com.plcoding.core.designsystem.components.textfields.ChirpTextField
 import com.plcoding.core.designsystem.dimesions.LocalDim
 import com.plcoding.core.designsystem.theme.ChirpTheme
+import com.plcoding.core.presentation.utils.ObserveAsEvent
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -41,8 +50,37 @@ fun LoginScreenRoot(
     onLoginSuccess: () -> Unit = {},
     onForgotPassword: () -> Unit = {},
     onRegisterClick: () -> Unit = {},
+    onEmailResentSuccess: (email: String) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var showEmailNotVerifiedDialog by remember { mutableStateOf(false) }
+
+    ObserveAsEvent(viewModel.events) { event ->
+        when (event) {
+            is LoginEvent.OnLoginSuccess -> {
+                onLoginSuccess()
+            }
+
+            LoginEvent.OnEmailNotVerified -> {
+                showEmailNotVerifiedDialog = true
+            }
+
+            is LoginEvent.OnEmailResentSuccess -> {
+                showEmailNotVerifiedDialog = false
+                onEmailResentSuccess(event.email)
+            }
+        }
+    }
+
+    if (showEmailNotVerifiedDialog) {
+        EmailNotVerifiedDialog(
+            onDismiss = { showEmailNotVerifiedDialog = false },
+            resendVerificationEmail = {
+                showEmailNotVerifiedDialog = false
+                viewModel.resendVerificationEmail()
+            }
+        )
+    }
 
     LoginScreen(
         state = state,
@@ -76,10 +114,7 @@ fun LoginScreen(
             placeHolder = stringResource(Res.string.email_placeholder),
             title = stringResource(Res.string.email),
             keyboardType = KeyboardType.Email,
-            singleLine = true,
-            onFocusChanged = {
-                onAction(LoginScreenAction.OnInputTextFocusGain)
-            }
+            singleLine = true
         )
         ChirpSpacerHeight(LocalDim.current.dimen16dp)
         //password text field
@@ -90,9 +125,6 @@ fun LoginScreen(
             isPasswordVisible = state.isPasswordVisible,
             onTogglePasswordVisibility = {
                 onAction(LoginScreenAction.OnTogglePasswordVisibilityClick)
-            },
-            onFocusChanged = {
-                onAction(LoginScreenAction.OnInputTextFocusGain)
             }
         )
         ChirpSpacerHeight(LocalDim.current.dimen16dp)
@@ -129,6 +161,42 @@ fun LoginScreen(
 
     }
 
+}
+
+@Composable
+fun EmailNotVerifiedDialog(
+    onDismiss: () -> Unit,
+    resendVerificationEmail: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = stringResource(Res.string.email_not_verified_title),
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
+        text = {
+            Text(
+                text = stringResource(Res.string.email_not_verified_message),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        },
+        confirmButton = {
+            ChirpButton(
+                text = stringResource(Res.string.resend_verification_email),
+                onClick = resendVerificationEmail,
+                style = ChirpButtonStyle.PRIMARY
+            )
+        },
+        dismissButton = {
+            ChirpButton(
+                text = stringResource(Res.string.dismiss),
+                onClick = onDismiss,
+                style = ChirpButtonStyle.DESTRUCTIVE_SECONDARY
+            )
+        }
+    )
 }
 
 @Preview

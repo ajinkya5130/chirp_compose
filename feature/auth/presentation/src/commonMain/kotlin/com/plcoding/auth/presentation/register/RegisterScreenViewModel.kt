@@ -97,7 +97,12 @@ class RegisterScreenViewModel(
     fun onAction(action: RegisterScreenAction) {
         when (action) {
             //RegisterScreenAction.OnLoginClick -> Unit
-            RegisterScreenAction.OnRegisterClick -> registerNewUser()
+            RegisterScreenAction.OnRegisterClick -> {
+                /*viewModelScope.launch {
+                    eventChannel.send(RegisterEvent.Success(state.value.emailTextState.text.toString()))
+                }*/
+                registerNewUser()
+            }
             RegisterScreenAction.OnTogglePasswordVisibilityClick -> {
                 _state.update {
                     it.copy(

@@ -9,6 +9,7 @@ import com.plcoding.auth.presentation.email_verification.EmailVerificationScreen
 import com.plcoding.auth.presentation.login.LoginScreenRoot
 import com.plcoding.auth.presentation.register.RegisterScreenRoot
 import com.plcoding.auth.presentation.register.register_success.RegisterSuccessRoot
+import com.plcoding.auth.presentation.utils.Utility.KEY_EMAIL_STRING
 import com.plcoding.core.domain.utils.UrlConstants
 
 fun NavGraphBuilder.authGraph(
@@ -24,12 +25,19 @@ fun NavGraphBuilder.authGraph(
                 onLoginSuccess = onLoginSuccess,
                 onRegisterClick = {
                     navController.navigate(AuthGraphRoutes.Register) {
+                        /*popUpTo(AuthGraphRoutes.Register) {
+                            inclusive = true
+                            saveState = true
+                        }*/
                         restoreState = true
                         launchSingleTop = true
                     }
                 },
                 onForgotPassword = {
                     navController.navigate(AuthGraphRoutes.ForgotPassword)
+                },
+                onEmailResentSuccess = {
+                    navController.navigate(AuthGraphRoutes.RegisterSuccess(KEY_EMAIL_STRING))
                 }
             )
         }
@@ -57,7 +65,13 @@ fun NavGraphBuilder.authGraph(
         }
 
         composable<AuthGraphRoutes.RegisterSuccess> {
-            RegisterSuccessRoot()
+            RegisterSuccessRoot(navigateToLoginScreen = {
+                navController.navigate(AuthGraphRoutes.Login) {
+                    popUpTo<AuthGraphRoutes.RegisterSuccess> {
+                        inclusive = true
+                    }
+                }
+            })
         }
 
         composable<AuthGraphRoutes.EmailVerification>(
@@ -75,7 +89,22 @@ fun NavGraphBuilder.authGraph(
                 },
             )
         ) {
-            EmailVerificationScreenRoot()
+            EmailVerificationScreenRoot(
+                onLoginClick = {
+                    navController.navigate(AuthGraphRoutes.Login) {
+                        popUpTo<AuthGraphRoutes.EmailVerification> {
+                            inclusive = true
+                        }
+                    }
+                },
+                onCloseClick = {
+                    navController.navigate(AuthGraphRoutes.Login) {
+                        popUpTo<AuthGraphRoutes.EmailVerification> {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
 
     }

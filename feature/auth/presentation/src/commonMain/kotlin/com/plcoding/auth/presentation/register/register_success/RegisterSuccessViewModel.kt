@@ -48,8 +48,8 @@ class RegisterSuccessViewModel(
 
     fun onAction(action: RegisterSuccessAction) {
         when (action) {
-            RegisterSuccessAction.OnLoginClick -> Unit
             RegisterSuccessAction.OnResendClick -> resendVerificationEmail()
+            else -> Unit
         }
     }
 
