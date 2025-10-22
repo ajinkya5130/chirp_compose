@@ -21,3 +21,21 @@ fun UserInfoSerializable.toUserInfo(): UserInfo {
         profilePictureUrl = profilePictureUrl,
     )
 }
+
+fun AuthInfo.toSerializableAuth(): AuthInfoSerializable {
+    return AuthInfoSerializable(
+        accessToken = accessToken,
+        refreshToken = refreshToken,
+        user = user.toSerializableUserInfo()
+    )
+}
+
+fun UserInfo.toSerializableUserInfo(): UserInfoSerializable {
+    return UserInfoSerializable(
+        id = id,
+        email = email,
+        username = username,
+        isEmailVerified = isEmailVerified,
+        profilePictureUrl = profilePictureUrl,
+    )
+}

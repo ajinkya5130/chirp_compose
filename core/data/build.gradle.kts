@@ -19,6 +19,9 @@ kotlin {
                 implementation(libs.bundles.ktor.common)
                 implementation(libs.kermit)
                 implementation(libs.koin.core)
+                implementation(libs.datastore)
+                implementation(libs.datastore.preferences)
+
 
             }
         }
@@ -29,6 +32,7 @@ kotlin {
                 // commonMain by default and will correctly pull the Android artifacts of any KMP
                 // dependencies declared in commonMain.
                 implementation(libs.ktor.client.okhttp)
+                implementation(libs.koin.android)
 
             }
         }
