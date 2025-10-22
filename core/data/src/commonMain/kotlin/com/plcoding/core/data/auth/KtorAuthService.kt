@@ -17,9 +17,26 @@ import com.plcoding.core.domain.utils.UrlConstants.KEY_TOKEN
 import com.plcoding.core.domain.utils.map
 import io.ktor.client.HttpClient
 
+/**
+ * Ktor-based implementation of authentication service.
+ *
+ * This class provides authentication functionality using Ktor HTTP client for network requests.
+ * It handles user login, registration, email verification, and related authentication operations.
+ *
+ * @property httpClient The Ktor HTTP client used for making network requests
+ */
 class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
 
-
+    /**
+     * Authenticates a user with email and password.
+     *
+     * Sends a login request to the server and returns authentication information
+     * including access token, refresh token, and user details upon successful authentication.
+     *
+     * @param email The user's email address
+     * @param password The user's password
+     * @return Result containing [AuthInfo] on success or [DataError.Remote] on failure
+     */
     override suspend fun login(
         email: String,
         password: String,
@@ -32,6 +49,17 @@ class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
         }
     }
 
+    /**
+     * Registers a new user account.
+     *
+     * Creates a new user account with the provided credentials. The user will typically
+     * need to verify their email address before being able to log in.
+     *
+     * @param email The user's email address
+     * @param password The user's password
+     * @param username The desired username for the account
+     * @return EmptyResult indicating success or [DataError.Remote] on failure
+     */
     override suspend fun register(
         email: String,
         password: String,
@@ -43,6 +71,15 @@ class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
         )
     }
 
+    /**
+     * Resends the email verification link to the user.
+     *
+     * Triggers the server to send a new verification email to the specified email address.
+     * This is useful when the original verification email was not received or has expired.
+     *
+     * @param email The email address to send the verification link to
+     * @return EmptyResult indicating success or [DataError.Remote] on failure
+     */
     override suspend fun resendVerificationEmail(email: String): EmptyResult<DataError.Remote> {
         return httpClient.post(
             route = "/auth/resend-verification",
@@ -50,6 +87,15 @@ class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
         )
     }
 
+    /**
+     * Verifies a user's email address using a verification token.
+     *
+     * Validates the email verification token sent to the user's email address.
+     * Upon successful verification, the user's email will be marked as verified.
+     *
+     * @param token The verification token from the email link
+     * @return EmptyResult indicating success or [DataError.Remote] on failure
+     */
     override suspend fun verifyEmail(token: String): EmptyResult<DataError.Remote> {
         return httpClient.get(
             route = UrlConstants.API_ENDPOINT_VERIFY_EMAIL,

@@ -12,8 +12,25 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
+/**
+ * Platform-specific dependency injection module.
+ *
+ * This module must be implemented by each platform (Android, iOS, etc.) to provide
+ * platform-specific dependencies such as DataStore and HTTP client engine.
+ */
 expect val platformSpecificModule: Module
 
+/**
+ * Core data layer dependency injection module.
+ *
+ * This module provides all the core data layer dependencies including:
+ * - HTTP client for network requests
+ * - Authentication service
+ * - Session storage
+ * - Logging functionality
+ *
+ * It also includes platform-specific dependencies from [platformSpecificModule].
+ */
 val coreDataModule = module {
     includes(platformSpecificModule)
     single<CustomLogger> { AppLogger }

@@ -18,9 +18,30 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
+/**
+ * Factory class for creating configured Ktor HTTP clients.
+ *
+ * This factory creates HTTP clients with pre-configured plugins including:
+ * - Content negotiation with JSON serialization
+ * - HTTP timeouts
+ * - Request/response logging
+ * - WebSocket support
+ * - Default headers and API key authentication
+ *
+ * @property customLogger The logger instance for logging HTTP requests and responses
+ */
 class HttpClientFactory(
     val customLogger: CustomLogger,
 ) {
+    /**
+     * Creates a configured HTTP client with the specified engine.
+     *
+     * The client is configured with all necessary plugins for the application's
+     * networking needs, including JSON serialization, timeouts, logging, and WebSockets.
+     *
+     * @param engine The platform-specific HTTP client engine to use
+     * @return A fully configured [HttpClient] instance
+     */
     fun create(engine: HttpClientEngine): HttpClient {
         return HttpClient(engine) {
             //expectSuccess = true
