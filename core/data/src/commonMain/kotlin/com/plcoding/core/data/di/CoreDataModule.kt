@@ -35,9 +35,8 @@ val coreDataModule = module {
     includes(platformSpecificModule)
     single<CustomLogger> { AppLogger }
     single {
-        HttpClientFactory(get()).create(get())
+        HttpClientFactory(get(), get()).create(get())
     }
-
     /*
     single<IAuthService> {
         KtorAuthService(get())

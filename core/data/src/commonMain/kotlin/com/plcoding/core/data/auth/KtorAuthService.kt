@@ -2,6 +2,7 @@ package com.plcoding.core.data.auth
 
 import com.plcoding.core.data.dto.AuthInfoSerializable
 import com.plcoding.core.data.dto.requests.LoginRequest
+import com.plcoding.core.data.dto.requests.RefreshTokenRequest
 import com.plcoding.core.data.dto.requests.RegisterRequest
 import com.plcoding.core.data.dto.requests.ResendVerificationEmailRequest
 import com.plcoding.core.data.dto.toAuthInfo
@@ -13,7 +14,6 @@ import com.plcoding.core.domain.utils.DataError
 import com.plcoding.core.domain.utils.EmptyResult
 import com.plcoding.core.domain.utils.Result
 import com.plcoding.core.domain.utils.UrlConstants
-import com.plcoding.core.domain.utils.UrlConstants.KEY_TOKEN
 import com.plcoding.core.domain.utils.map
 import io.ktor.client.HttpClient
 
@@ -42,7 +42,7 @@ class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
         password: String,
     ): Result<AuthInfo, DataError.Remote> {
         return httpClient.post<LoginRequest, AuthInfoSerializable>(
-            route = "/auth/login",
+            route = UrlConstants.API_ENDPOINT_LOGIN,
             body = LoginRequest(email, password)
         ).map { authInfoSerializable ->
             authInfoSerializable.toAuthInfo()
@@ -66,7 +66,7 @@ class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
         username: String,
     ): EmptyResult<DataError.Remote> {
         return httpClient.post(
-            route = "/auth/register",
+            route = UrlConstants.API_ENDPOINT_REGISTER,
             body = RegisterRequest(email, password, username)
         )
     }
@@ -82,7 +82,7 @@ class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
      */
     override suspend fun resendVerificationEmail(email: String): EmptyResult<DataError.Remote> {
         return httpClient.post(
-            route = "/auth/resend-verification",
+            route = UrlConstants.API_ENDPOINT_RESEND_VERIFICATION,
             body = ResendVerificationEmailRequest(email)
         )
     }
@@ -99,7 +99,25 @@ class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
     override suspend fun verifyEmail(token: String): EmptyResult<DataError.Remote> {
         return httpClient.get(
             route = UrlConstants.API_ENDPOINT_VERIFY_EMAIL,
-            queryParams = mapOf(KEY_TOKEN to token)
+            queryParams = mapOf(UrlConstants.KEY_TOKEN to token)
         )
     }
+
+    /**
+     * Refreshes the authentication token using a refresh token.
+     *
+     * Sends a request to the server with the refresh token to obtain new access and refresh tokens.
+     * This is typically called when the access token has expired.
+     *
+     * @param refreshToken The refresh token to use for obtaining new tokens
+     * @return Result containing new [AuthInfo] on success or [DataError.Remote] on failure
+     */
+    override suspend fun refreshAuthToken(refreshToken: String): Result<AuthInfo, DataError.Remote> {
+        return httpClient.post(
+            route = UrlConstants.API_ENDPOINT_AUTH_REFRESH_TOKEN,
+            body = RefreshTokenRequest(refreshToken)
+        )
+    }
+
+
 }

@@ -1,11 +1,22 @@
 package com.plcoding.core.data.networking
 
 import com.plcoding.core.data.BuildKonfig
+import com.plcoding.core.data.dto.AuthInfoSerializable
+import com.plcoding.core.data.dto.requests.RefreshTokenRequest
+import com.plcoding.core.data.dto.toAuthInfo
+import com.plcoding.core.domain.auth.ISessionDataStorage
 import com.plcoding.core.domain.logging.CustomLogger
+import com.plcoding.core.domain.utils.UrlConstants.API_ENDPOINT_AUTH_REFRESH_TOKEN
+import com.plcoding.core.domain.utils.UrlConstants.KEY_AUTH_WITH_SLASH
 import com.plcoding.core.domain.utils.UrlConstants.TIMEOUT_VALUE
+import com.plcoding.core.domain.utils.onFailure
+import com.plcoding.core.domain.utils.onSuccess
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -13,9 +24,11 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.request.header
+import io.ktor.client.statement.request
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.serialization.json.Json
 
 /**
@@ -32,6 +45,7 @@ import kotlinx.serialization.json.Json
  */
 class HttpClientFactory(
     val customLogger: CustomLogger,
+    val iSessionDataStorage: ISessionDataStorage,
 ) {
     /**
      * Creates a configured HTTP client with the specified engine.
@@ -74,6 +88,52 @@ class HttpClientFactory(
             defaultRequest {
                 header("x-api-key", BuildKonfig.API_KEY)
                 contentType(ContentType.Application.Json)
+            }
+
+            install(Auth) {
+                bearer {
+                    loadTokens {
+                        iSessionDataStorage.getAuthInfo().firstOrNull()?.let {
+                            BearerTokens(it.accessToken, it.refreshToken)
+                        } ?: run {
+                            null
+                        }
+                    }
+                    refreshTokens {
+                        if (response.request.url.encodedPath.contains(KEY_AUTH_WITH_SLASH)) {
+                            return@refreshTokens null
+                        }
+
+                        val authInfo = iSessionDataStorage.getAuthInfo().firstOrNull()
+                        if (authInfo?.refreshToken.isNullOrBlank()) {
+                            iSessionDataStorage.clearAuthInfo()
+                            return@refreshTokens null
+                        }
+
+                        var bearerTokens: BearerTokens? = null
+
+                        client.post<RefreshTokenRequest, AuthInfoSerializable>(
+                            route = API_ENDPOINT_AUTH_REFRESH_TOKEN,
+                            body = RefreshTokenRequest(authInfo.refreshToken),
+                            builder = {
+                                markAsRefreshTokenRequest()
+                            }
+                        ).onSuccess { newAuthInfo ->
+                            iSessionDataStorage.saveAuthInfo(newAuthInfo.toAuthInfo())
+                            bearerTokens =
+                                BearerTokens(newAuthInfo.accessToken, newAuthInfo.refreshToken)
+                            return@refreshTokens bearerTokens
+
+
+                        }.onFailure { error ->
+                            iSessionDataStorage.clearAuthInfo()
+                        }
+                        //refreshTokenAPIImpl.refreshTokenAPI(authInfo.refreshToken)
+                        bearerTokens
+
+                    }
+                }
+
             }
 
         }

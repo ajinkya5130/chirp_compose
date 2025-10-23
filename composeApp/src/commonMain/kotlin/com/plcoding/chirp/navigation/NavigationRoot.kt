@@ -9,6 +9,14 @@ import com.plcoding.auth.presentation.navigation.authGraph
 import com.plcoding.chat.presentation.chat_screen.ChatListScreen
 import kotlinx.serialization.Serializable
 
+/**
+ * Root navigation composable for the application.
+ *
+ * Sets up the navigation graph with authentication and chat screens,
+ * handling navigation between different parts of the app.
+ *
+ * @param navController The navigation controller for managing navigation
+ */
 @Composable
 fun NavigationRoot(navController: NavHostController) {
     NavHost(
@@ -30,7 +38,11 @@ fun NavigationRoot(navController: NavHostController) {
     }
 }
 
+/**
+ * Sealed interface representing chat-related navigation destinations.
+ */
 sealed interface ChatGraph {
+    /** Chat list screen destination */
     @Serializable
     data object ChatList : ChatGraph
 }

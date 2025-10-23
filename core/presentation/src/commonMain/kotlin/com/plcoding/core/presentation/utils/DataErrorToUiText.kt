@@ -18,6 +18,14 @@ import chirp.core.presentation.generated.resources.error_unauthorized
 import chirp.core.presentation.generated.resources.error_unknown
 import com.plcoding.core.domain.utils.DataError
 
+/**
+ * Converts a [DataError] to a user-friendly [UiText] for display.
+ *
+ * This extension function maps domain-level data errors to localized string resources
+ * that can be displayed to the user. It handles both local and remote error types.
+ *
+ * @return A [UiText.Resource] containing the appropriate error message string resource
+ */
 fun DataError.toUiText(): UiText {
     val resource = when (this) {
         DataError.Local.DISK_FULL -> Res.string.error_disk_full

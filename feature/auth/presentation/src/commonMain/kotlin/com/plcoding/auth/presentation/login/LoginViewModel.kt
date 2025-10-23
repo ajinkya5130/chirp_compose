@@ -30,6 +30,15 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for the login screen.
+ *
+ * Manages the login screen state, handles user authentication, and coordinates
+ * with the authentication service and session storage.
+ *
+ * @property authService The authentication service for login operations
+ * @property dataStore The session storage for persisting authentication data
+ */
 class LoginViewModel(
     private val authService: IAuthService,
     private val dataStore: ISessionDataStorage,

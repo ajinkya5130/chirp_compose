@@ -10,6 +10,7 @@ import com.plcoding.core.domain.auth.UserInfo
  * into the domain model used throughout the application.
  *
  * @return The domain model [AuthInfo] with all authentication data
+ * in video sessions below function mentioned as toDomain() like AuthInfoSerializable.toDomain()
  */
 fun AuthInfoSerializable.toAuthInfo(): AuthInfo {
     return AuthInfo(
