@@ -10,6 +10,7 @@ import com.plcoding.auth.presentation.navigation.ChatGraphRoutes
 import com.plcoding.chirp.navigation.DeepLinkListener
 import com.plcoding.chirp.navigation.NavigationRoot
 import com.plcoding.core.designsystem.theme.ChirpTheme
+import com.plcoding.core.presentation.utils.ObserveAsEvent
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -27,6 +28,20 @@ fun App(
             onAuthenticationChecked.invoke()
         }
     }
+
+    ObserveAsEvent(viewModel.event) { event ->
+        when (event) {
+            is MainEvent.OnSessionExpired -> {
+                navController.navigate(AuthGraphRoutes.Graph) {
+                    popUpTo(AuthGraphRoutes.Graph) {
+                        inclusive = false
+                    }
+                    launchSingleTop = true
+                }
+            }
+        }
+    }
+
     ChirpTheme {
         if (state.isCheckingAuth.not()) {
             NavigationRoot(

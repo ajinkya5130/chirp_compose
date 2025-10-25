@@ -8,9 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.plcoding.core.designsystem.theme.extended
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun ChatListScreen() {
+fun ChatListScreen(
+    viewModel: ChatListViewModel = koinViewModel(),
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

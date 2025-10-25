@@ -44,13 +44,13 @@ class LoginViewModel(
     private val dataStore: ISessionDataStorage,
 ) : ViewModel() {
 
-    private var hasLoadedInitialData = false
-
     private val channel = Channel<LoginEvent>()
 
     val events = channel.receiveAsFlow()
 
     private val _state = MutableStateFlow(LoginScreenState())
+
+    private var hasLoadedInitialData = false
     val state = _state
         .onStart {
             if (!hasLoadedInitialData) {
