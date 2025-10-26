@@ -28,6 +28,9 @@ object UrlConstants {
     /** Endpoint for refreshing authentication token */
     const val API_ENDPOINT_AUTH_REFRESH_TOKEN = "/auth/refresh"
 
+    /** Endpoint for refreshing authentication token */
+    const val API_ENDPOINT_FORGOT_PASSWORD = "/auth/forgot-password"
+
     /*---- Query Parameter Keys --- */
     /** Query parameter key for token */
     const val KEY_TOKEN = "token"

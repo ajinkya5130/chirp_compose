@@ -119,5 +119,12 @@ class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
         )
     }
 
+    override suspend fun forgotPassword(email: String): EmptyResult<DataError.Remote> {
+        return httpClient.post(
+            route = UrlConstants.API_ENDPOINT_FORGOT_PASSWORD,
+            body = ResendVerificationEmailRequest(email)
+        )
+    }
+
 
 }

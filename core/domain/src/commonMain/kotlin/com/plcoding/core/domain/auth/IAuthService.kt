@@ -69,4 +69,9 @@ interface IAuthService {
     ): Result<AuthInfo, DataError.Remote>
 
 
+    suspend fun forgotPassword(
+        email: String,
+    ): EmptyResult<DataError.Remote>
+
+
 }
