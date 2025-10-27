@@ -32,6 +32,7 @@ import com.plcoding.core.designsystem.components.buttons.ChirpButton
 import com.plcoding.core.designsystem.components.buttons.ChirpButtonStyle
 import com.plcoding.core.designsystem.components.layouts.ChirpAdaptiveResultLayout
 import com.plcoding.core.designsystem.components.layouts.ChirpSimpleResultLayout
+import com.plcoding.core.designsystem.components.layouts.ChirpSnackBar
 import com.plcoding.core.designsystem.components.layouts.ChirpSpacerHeight
 import com.plcoding.core.designsystem.dimesions.LocalDim
 import com.plcoding.core.designsystem.theme.ChirpTheme
@@ -69,27 +70,29 @@ fun EmailVerificationScreenScreen(
     state: EmailVerificationScreenState,
     onAction: (EmailVerificationScreenAction) -> Unit,
 ) {
-    ChirpAdaptiveResultLayout {
-        when {
-            state.isVerifying -> {
-                //show verifying screen
-                VerifyingContent()
+    ChirpSnackBar {
+        ChirpAdaptiveResultLayout {
+            when {
+                state.isVerifying -> {
+                    //show verifying screen
+                    VerifyingContent()
 
+                }
+
+                state.isVerified -> {
+                    //show success screen
+                    VerificationFailedContent(onAction)
+                    //SuccessContent(onAction)
+
+                }
+
+                else -> {
+                    //show verification screen
+                    SuccessContent(onAction)
+                }
             }
 
-            state.isVerified -> {
-                //show success screen
-                VerificationFailedContent(onAction)
-                //SuccessContent(onAction)
-
-            }
-
-            else -> {
-                //show verification screen
-                SuccessContent(onAction)
-            }
         }
-
     }
 
 }

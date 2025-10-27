@@ -22,6 +22,7 @@ import chirp.feature.auth.presentation.generated.resources.submit
 import com.plcoding.core.designsystem.components.branding.ChirpBrandingLogo
 import com.plcoding.core.designsystem.components.buttons.ChirpButton
 import com.plcoding.core.designsystem.components.layouts.ChirpAdaptiveFormLayout
+import com.plcoding.core.designsystem.components.layouts.ChirpSnackBar
 import com.plcoding.core.designsystem.components.layouts.ChirpSpacerHeight
 import com.plcoding.core.designsystem.components.textfields.ChirpTextField
 import com.plcoding.core.designsystem.dimesions.LocalDim
@@ -48,39 +49,41 @@ fun ForgotPassScreenScreen(
     state: ForgotPassScreenState,
     onAction: (ForgotPassScreenAction) -> Unit,
 ) {
-    ChirpAdaptiveFormLayout(
-        header = stringResource(Res.string.forgot_password),
-        errorText = state.errorText?.asString(),
-        logo = {
-            ChirpBrandingLogo()
-        }) {
-        ChirpTextField(
-            state = state.emailTextFieldState,
-            placeHolder = stringResource(Res.string.email_placeholder),
-            isError = state.errorText != null,
-            title = stringResource(Res.string.email),
-            keyboardType = KeyboardType.Email,
-            singleLine = true
-        )
-        ChirpSpacerHeight(LocalDim.current.dimen16dp)
-        ChirpButton(
-            text = stringResource(Res.string.submit),
-            onClick = {
-                onAction(ForgotPassScreenAction.OnSubmitClick)
-            },
-            enabled = state.canSubmit && !state.isLoading,
-            isLoading = state.isLoading,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        ChirpSpacerHeight(LocalDim.current.dimen8dp)
-        if (state.isEmailSendSuccessfully) {
-            Text(
-                text = stringResource(Res.string.forgot_pass_email_sent_successfully),
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.extended.success,
-                style = MaterialTheme.typography.bodyMedium
+    ChirpSnackBar {
+        ChirpAdaptiveFormLayout(
+            header = stringResource(Res.string.forgot_password),
+            errorText = state.errorText?.asString(),
+            logo = {
+                ChirpBrandingLogo()
+            }) {
+            ChirpTextField(
+                state = state.emailTextFieldState,
+                placeHolder = stringResource(Res.string.email_placeholder),
+                isError = state.errorText != null,
+                title = stringResource(Res.string.email),
+                keyboardType = KeyboardType.Email,
+                singleLine = true
             )
+            ChirpSpacerHeight(LocalDim.current.dimen16dp)
+            ChirpButton(
+                text = stringResource(Res.string.submit),
+                onClick = {
+                    onAction(ForgotPassScreenAction.OnSubmitClick)
+                },
+                enabled = state.canSubmit && !state.isLoading,
+                isLoading = state.isLoading,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            ChirpSpacerHeight(LocalDim.current.dimen8dp)
+            if (state.isEmailSendSuccessfully) {
+                Text(
+                    text = stringResource(Res.string.forgot_pass_email_sent_successfully),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.extended.success,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
     }
 

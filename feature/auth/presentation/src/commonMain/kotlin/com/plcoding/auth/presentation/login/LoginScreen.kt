@@ -34,6 +34,7 @@ import com.plcoding.core.designsystem.components.branding.ChirpBrandingLogo
 import com.plcoding.core.designsystem.components.buttons.ChirpButton
 import com.plcoding.core.designsystem.components.buttons.ChirpButtonStyle
 import com.plcoding.core.designsystem.components.layouts.ChirpAdaptiveFormLayout
+import com.plcoding.core.designsystem.components.layouts.ChirpSnackBar
 import com.plcoding.core.designsystem.components.layouts.ChirpSpacerHeight
 import com.plcoding.core.designsystem.components.textfields.ChirpPasswordField
 import com.plcoding.core.designsystem.components.textfields.ChirpTextField
@@ -100,67 +101,69 @@ fun LoginScreen(
     state: LoginScreenState,
     onAction: (LoginScreenAction) -> Unit,
 ) {
-    ChirpAdaptiveFormLayout(
-        header = stringResource(Res.string.welcome_back),
-        errorText = state.loginError?.asString(),
-        logo = {
-            ChirpBrandingLogo()
-        }
-    ) {
-        //form content
-        //email text field
-        ChirpTextField(
-            state = state.emailTextFieldState,
-            placeHolder = stringResource(Res.string.email_placeholder),
-            title = stringResource(Res.string.email),
-            keyboardType = KeyboardType.Email,
-            singleLine = true
-        )
-        ChirpSpacerHeight(LocalDim.current.dimen16dp)
-        //password text field
-        ChirpPasswordField(
-            state = state.passwordTextFieldState,
-            placeHolder = stringResource(Res.string.password),
-            title = stringResource(Res.string.password),
-            isPasswordVisible = state.isPasswordVisible,
-            onTogglePasswordVisibility = {
-                onAction(LoginScreenAction.OnTogglePasswordVisibilityClick)
+    ChirpSnackBar {
+        ChirpAdaptiveFormLayout(
+            header = stringResource(Res.string.welcome_back),
+            errorText = state.loginError?.asString(),
+            logo = {
+                ChirpBrandingLogo()
             }
-        )
-        ChirpSpacerHeight(LocalDim.current.dimen16dp)
-        //forgot password
-        Text(
-            text = stringResource(Res.string.forgot_password),
-            modifier = Modifier.align(Alignment.End).clickable {
-                onAction(LoginScreenAction.OnForgotPasswordClick)
-            },
-            color = MaterialTheme.colorScheme.tertiary,
-            style = MaterialTheme.typography.titleSmall
-        )
-        //login button
-        ChirpSpacerHeight(LocalDim.current.dimen24dp)
-        ChirpButton(
-            text = stringResource(Res.string.login),
-            onClick = {
-                onAction(LoginScreenAction.OnLoginClick)
-            },
-            enabled = state.canLogin,
-            isLoading = state.isLoggingIn,
-            modifier = Modifier.fillMaxWidth()
-        )
-        //register button
-        ChirpSpacerHeight(LocalDim.current.dimen16dp)
-        ChirpButton(
-            text = stringResource(Res.string.create_account),
-            onClick = {
-                onAction(LoginScreenAction.OnRegisterClick)
-            },
-            style = ChirpButtonStyle.SECONDARY,
-            modifier = Modifier.fillMaxWidth()
-        )
+        ) {
+            //form content
+            //email text field
+            ChirpTextField(
+                state = state.emailTextFieldState,
+                placeHolder = stringResource(Res.string.email_placeholder),
+                title = stringResource(Res.string.email),
+                keyboardType = KeyboardType.Email,
+                singleLine = true
+            )
+            ChirpSpacerHeight(LocalDim.current.dimen16dp)
+            //password text field
+            ChirpPasswordField(
+                state = state.passwordTextFieldState,
+                placeHolder = stringResource(Res.string.password),
+                title = stringResource(Res.string.password),
+                isPasswordVisible = state.isPasswordVisible,
+                onTogglePasswordVisibility = {
+                    onAction(LoginScreenAction.OnTogglePasswordVisibilityClick)
+                }
+            )
+            ChirpSpacerHeight(LocalDim.current.dimen16dp)
+            //forgot password
+            Text(
+                text = stringResource(Res.string.forgot_password),
+                modifier = Modifier.align(Alignment.End).clickable {
+                    onAction(LoginScreenAction.OnForgotPasswordClick)
+                },
+                color = MaterialTheme.colorScheme.tertiary,
+                style = MaterialTheme.typography.titleSmall
+            )
+            //login button
+            ChirpSpacerHeight(LocalDim.current.dimen24dp)
+            ChirpButton(
+                text = stringResource(Res.string.login),
+                onClick = {
+                    onAction(LoginScreenAction.OnLoginClick)
+                },
+                enabled = state.canLogin,
+                isLoading = state.isLoggingIn,
+                modifier = Modifier.fillMaxWidth()
+            )
+            //register button
+            ChirpSpacerHeight(LocalDim.current.dimen16dp)
+            ChirpButton(
+                text = stringResource(Res.string.create_account),
+                onClick = {
+                    onAction(LoginScreenAction.OnRegisterClick)
+                },
+                style = ChirpButtonStyle.SECONDARY,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+        }
 
     }
-
 }
 
 @Composable
