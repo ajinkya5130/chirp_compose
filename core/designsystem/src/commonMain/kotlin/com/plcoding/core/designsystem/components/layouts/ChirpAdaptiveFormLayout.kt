@@ -128,6 +128,8 @@ fun ChirpAdaptiveFormLayout(
                         errorText = errorText,
                         textAlign = TextAlign.Start,
                     )
+                    ChirpSpacerHeight(value = dimen.dimen24dp)
+                    formContent()
                 }
 
             }

@@ -33,6 +33,12 @@
     <string name="email_not_verified_message">Your email address has not been verified yet. Please check your inbox and click the verification link to activate your account.</string>
     <string name="dismiss">Dismiss</string>
     <string name="submit">Submit</string>
+    <string name="set_new_pass">Set New Password</string>
+    <string name="new_pass">New Password</string>
     <string name="forgot_pass_email_sent_successfully">We’ve successfully sent you an email with link to reset your password.</string>
+    <string name="reset_pass_failed">It seems like the reset password link is invalid or expired.</string>
+    <string name="reset_pass_successfully">Password reset successfully.</string>
+    <string name="error_reset_pass">Invalid password reset token.</string>
+    <string name="error_same_pass">The new password can't be equal to old password.</string>
 
 </resources>

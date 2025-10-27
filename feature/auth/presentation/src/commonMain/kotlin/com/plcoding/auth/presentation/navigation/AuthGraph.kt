@@ -10,6 +10,7 @@ import com.plcoding.auth.presentation.forgot_pass.ForgotPassScreenRoot
 import com.plcoding.auth.presentation.login.LoginScreenRoot
 import com.plcoding.auth.presentation.register.RegisterScreenRoot
 import com.plcoding.auth.presentation.register.register_success.RegisterSuccessRoot
+import com.plcoding.auth.presentation.reset_pass.ResetPasswordScreenRoot
 import com.plcoding.auth.presentation.utils.Utility.KEY_EMAIL_STRING
 import com.plcoding.core.domain.utils.UrlConstants
 
@@ -81,11 +82,13 @@ fun NavGraphBuilder.authGraph(
                     //https://chirp.pl-coding.com/api//auth/verify?token=token
                     val url =
                         "${UrlConstants.BASE_URL}${UrlConstants.API_ENDPOINT_VERIFY_EMAIL}?${UrlConstants.KEY_TOKEN}={${UrlConstants.KEY_TOKEN}}"
+                    println("EmailVerification url: $url")
                     this.uriPattern = url
                 },
                 navDeepLink {
                     val url =
                         "${UrlConstants.BASE_URL_CHIRP}${UrlConstants.API_ENDPOINT_VERIFY_EMAIL}?${UrlConstants.KEY_TOKEN}={${UrlConstants.KEY_TOKEN}}"
+                    println("EmailVerification url: $url")
                     this.uriPattern = url
                 },
             )
@@ -106,6 +109,26 @@ fun NavGraphBuilder.authGraph(
                     }
                 }
             )
+        }
+
+        composable<AuthGraphRoutes.ResetPassword>(
+            deepLinks = listOf(
+                navDeepLink {
+                    //https://chirp.pl-coding.com/api//auth/verify?token=token
+                    val url =
+                        "${UrlConstants.BASE_URL}${UrlConstants.API_ENDPOINT_RESET_PASSWORD}?${UrlConstants.KEY_TOKEN}={${UrlConstants.KEY_TOKEN}}"
+                    println("ResetPassword url: $url")
+                    this.uriPattern = url
+                },
+                navDeepLink {
+                    val url =
+                        "${UrlConstants.BASE_URL_CHIRP}${UrlConstants.API_ENDPOINT_RESET_PASSWORD}?${UrlConstants.KEY_TOKEN}={${UrlConstants.KEY_TOKEN}}"
+                    println("ResetPassword url: $url")
+                    this.uriPattern = url
+                },
+            )
+        ) {
+            ResetPasswordScreenRoot()
         }
 
     }

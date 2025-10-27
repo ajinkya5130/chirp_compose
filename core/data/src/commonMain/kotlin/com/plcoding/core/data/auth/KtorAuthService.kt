@@ -5,6 +5,7 @@ import com.plcoding.core.data.dto.requests.LoginRequest
 import com.plcoding.core.data.dto.requests.RefreshTokenRequest
 import com.plcoding.core.data.dto.requests.RegisterRequest
 import com.plcoding.core.data.dto.requests.ResendVerificationEmailRequest
+import com.plcoding.core.data.dto.requests.ResetPassword
 import com.plcoding.core.data.dto.toAuthInfo
 import com.plcoding.core.data.networking.get
 import com.plcoding.core.data.networking.post
@@ -123,6 +124,16 @@ class KtorAuthService(private val httpClient: HttpClient) : IAuthService {
         return httpClient.post(
             route = UrlConstants.API_ENDPOINT_FORGOT_PASSWORD,
             body = ResendVerificationEmailRequest(email)
+        )
+    }
+
+    override suspend fun resetPassword(
+        token: String,
+        password: String,
+    ): EmptyResult<DataError.Remote> {
+        return httpClient.post(
+            route = UrlConstants.API_ENDPOINT_RESET_PASSWORD,
+            body = ResetPassword(token, password)
         )
     }
 

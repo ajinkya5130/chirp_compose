@@ -73,5 +73,10 @@ interface IAuthService {
         email: String,
     ): EmptyResult<DataError.Remote>
 
+    suspend fun resetPassword(
+        token: String,
+        password: String,
+    ): EmptyResult<DataError.Remote>
+
 
 }
