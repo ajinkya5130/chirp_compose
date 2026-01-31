@@ -1,31 +1,59 @@
 package com.plcoding.chirp
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import chirp.composeapp.generated.resources.Res
-import chirp.composeapp.generated.resources.compose_multiplatform
-import org.jetbrains.compose.resources.painterResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.rememberNavController
+import com.plcoding.auth.presentation.navigation.AuthGraphRoutes
+import com.plcoding.auth.presentation.navigation.ChatGraphRoutes
+import com.plcoding.chirp.navigation.DeepLinkListener
+import com.plcoding.chirp.navigation.NavigationRoot
+import com.plcoding.core.designsystem.theme.ChirpTheme
+import com.plcoding.core.presentation.utils.ObserveAsEvent
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 @Preview
-fun App() {
-    MaterialTheme {
+fun App(
+    viewModel: MainViewModel = koinViewModel(),
+    onAuthenticationChecked: () -> Unit = {},
+) {
+    val navController = rememberNavController()
+    DeepLinkListener(navController)
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    LaunchedEffect(state.isCheckingAuth) {
+        if (state.isCheckingAuth.not()) {
+            onAuthenticationChecked.invoke()
+        }
+    }
+
+    ObserveAsEvent(viewModel.event) { event ->
+        when (event) {
+            is MainEvent.OnSessionExpired -> {
+                navController.navigate(AuthGraphRoutes.Graph) {
+                    popUpTo(AuthGraphRoutes.Graph) {
+                        inclusive = false
+                    }
+                    launchSingleTop = true
+                }
+            }
+        }
+    }
+
+    ChirpTheme {
+        if (state.isCheckingAuth.not()) {
+            NavigationRoot(
+                navController,
+                if (state.isLoggedIn) {
+                    ChatGraphRoutes.ChatList
+                } else {
+                    AuthGraphRoutes.Graph
+                }
+            )
+        }
+        /*
         var showContent by remember { mutableStateOf(false) }
         Column(
             modifier = Modifier
@@ -47,6 +75,6 @@ fun App() {
                     Text("Compose: $greeting")
                 }
             }
-        }
+        }*/
     }
 }
