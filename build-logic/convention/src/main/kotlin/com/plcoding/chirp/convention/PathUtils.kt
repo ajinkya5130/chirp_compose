@@ -19,7 +19,7 @@ fun Project.pathToResourcePrefix(): String {
 fun Project.pathToFrameworkName(): String {
     val parts = this.path.split(":", "-", "_", " ")
     //:core:data -> ["Core", "Data"] -> CoreData
-    return parts.joinToString("") { parts ->
-        parts.replaceFirstChar { it.titlecase(Locale.ROOT) }
+    return parts.joinToString("") { partsValue ->
+        partsValue.replaceFirstChar { it.titlecase(Locale.ROOT) }
     }
 }
