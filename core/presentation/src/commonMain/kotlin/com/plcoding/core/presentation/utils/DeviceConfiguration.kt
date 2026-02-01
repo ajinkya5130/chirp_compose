@@ -39,6 +39,8 @@ enum class DeviceConfiguration {
     /** Desktop or large screen device */
     DESKTOP;
 
+    val isMobile: Boolean
+        get() = this in listOf(MOBILE_PORTRAIT, MOBILE_LANDSCAPE)
 
     companion object {
         /**
