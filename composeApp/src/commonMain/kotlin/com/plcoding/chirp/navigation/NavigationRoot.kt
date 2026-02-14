@@ -3,11 +3,10 @@ package com.plcoding.chirp.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import com.plcoding.auth.presentation.navigation.AuthGraphRoutes
-import com.plcoding.auth.presentation.navigation.ChatGraphRoutes
 import com.plcoding.auth.presentation.navigation.authGraph
-import com.plcoding.chat.presentation.chat_screen.ChatListScreen
+import com.plcoding.chat.presentation.navigation.ChatGraphRoutes
+import com.plcoding.chat.presentation.navigation.chatGraph
 
 /**
  * Root navigation composable for the application.
@@ -16,6 +15,7 @@ import com.plcoding.chat.presentation.chat_screen.ChatListScreen
  * handling navigation between different parts of the app.
  *
  * @param navController The navigation controller for managing navigation
+ * @param graphMainRoute The starting destination route (either [AuthGraphRoutes.Graph] or [ChatGraphRoutes.Graph])
  */
 @Composable
 fun NavigationRoot(
@@ -29,14 +29,12 @@ fun NavigationRoot(
         authGraph(
             navController,
             onLoginSuccess = {
-                navController.navigate(ChatGraphRoutes.ChatList) {
+                navController.navigate(ChatGraphRoutes.Graph) {
                     popUpTo(AuthGraphRoutes.Graph) {
                         inclusive = true
                     }
                 }
             })
-        composable<ChatGraphRoutes.ChatList> {
-            ChatListScreen()
-        }
+        chatGraph(navController)
     }
 }

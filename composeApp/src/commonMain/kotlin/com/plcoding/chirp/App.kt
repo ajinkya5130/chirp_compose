@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.plcoding.auth.presentation.navigation.AuthGraphRoutes
-import com.plcoding.auth.presentation.navigation.ChatGraphRoutes
+import com.plcoding.chat.presentation.navigation.ChatGraphRoutes
 import com.plcoding.chirp.navigation.DeepLinkListener
 import com.plcoding.chirp.navigation.NavigationRoot
 import com.plcoding.core.designsystem.theme.ChirpTheme
@@ -14,6 +14,18 @@ import com.plcoding.core.presentation.utils.ObserveAsEvent
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
+/**
+ * Main application composable that serves as the entry point for the Chirp app.
+ *
+ * This composable handles:
+ * - Authentication state checking and navigation
+ * - Deep link listening
+ * - Session expiration handling
+ * - Initial routing based on login status
+ *
+ * @param viewModel The main view model that manages authentication state
+ * @param onAuthenticationChecked Callback invoked when authentication check is complete
+ */
 @Composable
 @Preview
 fun App(
@@ -47,7 +59,7 @@ fun App(
             NavigationRoot(
                 navController,
                 if (state.isLoggedIn) {
-                    ChatGraphRoutes.ChatList
+                    ChatGraphRoutes.Graph
                 } else {
                     AuthGraphRoutes.Graph
                 }
