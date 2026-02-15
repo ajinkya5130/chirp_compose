@@ -1,6 +1,7 @@
 package com.plcoding.chat.presentation.di
 
 import com.plcoding.chat.presentation.chat_details_screen.ChatListDetailsViewModel
+import com.plcoding.chat.presentation.createChat.CreateChatViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -12,4 +13,5 @@ import org.koin.dsl.module
  */
 val chatModule = module {
     viewModelOf(::ChatListDetailsViewModel)
+    viewModelOf(::CreateChatViewModel)
 }

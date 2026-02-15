@@ -18,7 +18,7 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 @Composable
 fun DialogSheetScopedViewModel(
-    visible: Boolean,
+    visible: Boolean = false,
     scopeId: String = rememberSaveable { Uuid.random().toString() },
     content: @Composable () -> Unit,
 ) {

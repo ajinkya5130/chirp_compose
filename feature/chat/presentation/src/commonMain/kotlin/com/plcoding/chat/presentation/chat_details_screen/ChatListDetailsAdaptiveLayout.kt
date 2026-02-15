@@ -26,7 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.plcoding.chat.presentation.createChat.CreateChatScreenRoot
 import com.plcoding.core.designsystem.theme.extended
+import com.plcoding.core.presentation.utils.DialogSheetScopedViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -96,6 +98,7 @@ fun ChatListDetailsAdaptiveLayoutScreen(
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.extended.textPrimary,
                             modifier = Modifier.clickable {
+                                onAction.invoke(ChatListDetailsAction.OnCreateChatClick)
                                 onAction.invoke(ChatListDetailsAction.OnChatClick(it.toString()))
                                 scope.launch {
                                     scaffoldNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
@@ -127,16 +130,10 @@ fun ChatListDetailsAdaptiveLayoutScreen(
 
     )
 
-}
-/*
-
-@Preview
-@Composable
-private fun Preview() {
-    ChirpTheme {
-        ChatListDetailsAdaptiveLayoutScreen(
-            state = ChatListDetailsState(),
-            onAction = {}
-        )
+    DialogSheetScopedViewModel(
+        visible = state.dialogState is DialogState.CreateChat
+    ) {
+        CreateChatScreenRoot()
     }
-}*/
+}
+

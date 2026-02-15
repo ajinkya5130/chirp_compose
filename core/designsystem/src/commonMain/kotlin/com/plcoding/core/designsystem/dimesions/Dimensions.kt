@@ -54,6 +54,7 @@ data class Dimensions(
     val dimen160dp: Dp = 160.dp,
     val dimen200dp: Dp = 200.dp,
     val dimen230dp: Dp = 230.dp,
+    val dimen300dp: Dp = 300.dp,
     val dimen480dp: Dp = 480.dp,
 )
 
