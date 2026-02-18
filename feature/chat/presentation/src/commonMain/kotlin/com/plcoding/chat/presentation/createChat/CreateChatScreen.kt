@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.MaterialTheme
@@ -25,11 +26,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.cancel
 import chirp.feature.chat.presentation.generated.resources.create_chat
-import com.plcoding.chat.models.ChatParticipant
 import com.plcoding.chat.presentation.components.ChatMemberSearchSection
 import com.plcoding.chat.presentation.components.ChatParticipantSelectionSection
 import com.plcoding.chat.presentation.components.ManageChatButtonSection
 import com.plcoding.chat.presentation.components.ManageChatHeaderRow
+import com.plcoding.core.designsystem.components.avatar.ChatParticipantUi
 import com.plcoding.core.designsystem.components.buttons.ChirpButton
 import com.plcoding.core.designsystem.components.buttons.ChirpButtonStyle
 import com.plcoding.core.designsystem.components.dialogs.ChirpAdaptiveDialogSheetLayout
@@ -56,17 +57,23 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CreateChatScreenRoot(
     viewModel: CreateChatViewModel = koinViewModel(),
+    onDismiss: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     ChirpAdaptiveDialogSheetLayout(
         onDismiss = {
-            viewModel.onAction(CreateChatScreenAction.onDismissDialog)
+            onDismiss
         }
     ) {
         CreateChatScreen(
             state = state,
-            onAction = viewModel::onAction
+            onAction = {
+                when (it) {
+                    CreateChatScreenAction.onDismissDialog -> onDismiss()
+                    else -> viewModel.onAction(it)
+                }
+            }
         )
     }
 }
@@ -104,6 +111,7 @@ private fun CreateChatScreen(
             .wrapContentHeight()
             .imePadding()
             .background(MaterialTheme.colorScheme.surface)
+            .navigationBarsPadding()
     ) {
         AnimatedVisibility(!shouldHideHeaderRow) {
             Column {
@@ -122,7 +130,7 @@ private fun CreateChatScreen(
                 onAction(CreateChatScreenAction.onAddClick)
             },
             isSearchEnabled = state.canAddParticipant,
-            isLoading = state.isLoadingParticipants,
+            isLoading = state.isSearchingParticipants,
             errorText = state.searchError,
             onFocusChanged = {
                 isTextFieldFocused = it
@@ -171,26 +179,30 @@ private fun Preview() {
         CreateChatScreen(
             state = CreateChatScreenState(
                 selectedParticipants = listOf(
-                    ChatParticipant(
-                        userId = "1",
+                    ChatParticipantUi(
+                        id = "1",
                         username = "John",
-                        profilePictureUrl = null
+                        initials = "JO",
+                        imageUrl = null
                     ),
-                    ChatParticipant(
-                        userId = "2",
+                    ChatParticipantUi(
+                        id = "2",
                         username = "Jane",
-                        profilePictureUrl = null
+                        initials = "JA",
+                        imageUrl = null
                     ),
-                    ChatParticipant(
-                        userId = "3",
+                    ChatParticipantUi(
+                        id = "3",
                         username = "Doe",
-                        profilePictureUrl = null
+                        initials = "DO",
+                        imageUrl = null
                     )
                 ),
-                currentSearchResult = ChatParticipant(
-                    userId = "4",
+                currentSearchResult = ChatParticipantUi(
+                    id = "4",
                     username = "John",
-                    profilePictureUrl = null
+                    imageUrl = null,
+                    initials = "JO",
                 )
             ),
             onAction = {}

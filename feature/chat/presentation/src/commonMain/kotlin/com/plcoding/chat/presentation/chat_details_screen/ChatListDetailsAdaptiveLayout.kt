@@ -133,7 +133,9 @@ fun ChatListDetailsAdaptiveLayoutScreen(
     DialogSheetScopedViewModel(
         visible = state.dialogState is DialogState.CreateChat
     ) {
-        CreateChatScreenRoot()
+        CreateChatScreenRoot() {
+            onAction.invoke(ChatListDetailsAction.OnDismissDialog)
+        }
     }
 }
 

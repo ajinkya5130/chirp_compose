@@ -18,7 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import com.plcoding.chat.models.ChatParticipant
+import com.plcoding.core.designsystem.components.avatar.ChatParticipantUi
 import com.plcoding.core.designsystem.components.avatar.ChirpAvatarSize
 import com.plcoding.core.designsystem.components.avatar.ChirpChatAvatarPhoto
 import com.plcoding.core.designsystem.dimesions.LocalDim
@@ -44,8 +44,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun ColumnScope.ChatParticipantSelectionSection(
     modifier: Modifier = Modifier,
-    selectedParticipants: List<ChatParticipant> = emptyList(),
-    searchResult: ChatParticipant? = null,
+    selectedParticipants: List<ChatParticipantUi> = emptyList(),
+    searchResult: ChatParticipantUi? = null,
 ) {
     val deviceConfig = rememberDeviceConfiguration()
     val heightModifier = when (deviceConfig) {
@@ -74,7 +74,7 @@ fun ColumnScope.ChatParticipantSelectionSection(
                 items(
                     items = selectedParticipants,
                     key = {
-                        it.userId
+                        it.id
                     }
                 ) {
                     ChatParticipantListItem(
@@ -98,7 +98,7 @@ fun ColumnScope.ChatParticipantSelectionSection(
 @Composable
 fun ChatParticipantListItem(
     modifier: Modifier = Modifier,
-    model: ChatParticipant,
+    model: ChatParticipantUi,
 ) {
     Row(
         modifier = modifier
@@ -111,7 +111,7 @@ fun ChatParticipantListItem(
         ChirpChatAvatarPhoto(
             displayText = model.initials,
             size = ChirpAvatarSize.SMALL,
-            imageUrl = model.profilePictureUrl
+            imageUrl = model.imageUrl
         )
         Text(
             text = model.username,

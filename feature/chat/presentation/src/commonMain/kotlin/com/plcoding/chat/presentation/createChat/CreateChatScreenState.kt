@@ -5,7 +5,7 @@ Created by ajinkyak on 14/02/26
 package com.plcoding.chat.presentation.createChat
 
 import androidx.compose.foundation.text.input.TextFieldState
-import com.plcoding.chat.models.ChatParticipant
+import com.plcoding.core.designsystem.components.avatar.ChatParticipantUi
 import com.plcoding.core.presentation.utils.UiText
 
 /**
@@ -17,7 +17,7 @@ import com.plcoding.core.presentation.utils.UiText
  * @property queryTexState The text field state for the participant search query input.
  * @property selectedParticipants List of participants that have been selected for the chat.
  * @property isAddingParticipants Flag indicating whether a participant is currently being added.
- * @property isLoadingParticipants Flag indicating whether participant search is in progress.
+ * @property isSearchingParticipants Flag indicating whether participant search is in progress.
  * @property canAddParticipant Flag indicating whether the current search query allows adding a participant.
  * @property currentSearchResult The current participant search result, if any.
  * @property searchError Error message to display if participant search fails.
@@ -25,11 +25,11 @@ import com.plcoding.core.presentation.utils.UiText
  */
 data class CreateChatScreenState(
     val queryTexState: TextFieldState = TextFieldState(),
-    val selectedParticipants: List<ChatParticipant> = emptyList(),
+    val selectedParticipants: List<ChatParticipantUi> = emptyList(),
     val isAddingParticipants: Boolean = false,
-    val isLoadingParticipants: Boolean = false,
+    val isSearchingParticipants: Boolean = false,
     val canAddParticipant: Boolean = false,
-    val currentSearchResult: ChatParticipant? = null,
+    val currentSearchResult: ChatParticipantUi? = null,
     val searchError: UiText? = null,
     val isCretingChat: Boolean = false,
 

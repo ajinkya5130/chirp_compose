@@ -1,6 +1,6 @@
 package com.plcoding.core.designsystem.components.avatar
 
-data class ChirpAvatarUi(
+data class ChatParticipantUi(
     val id: String,
     val username: String,
     val initials: String,

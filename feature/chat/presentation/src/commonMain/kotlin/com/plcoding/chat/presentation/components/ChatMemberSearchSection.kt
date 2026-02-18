@@ -47,10 +47,8 @@ fun ChatMemberSearchSection(
     onAddClick: () -> Unit = {},
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = LocalDim.current.dimen16dp),
-        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.fillMaxWidth().padding(horizontal = LocalDim.current.dimen16dp),
+        verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.spacedBy(LocalDim.current.dimen16dp)
     ) {
         ChirpTextField(
