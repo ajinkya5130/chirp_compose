@@ -4,6 +4,8 @@
     <string name="create_chat">Create Chat</string>
     <string name="add_chat">Add Chat</string>
     <string name="email_or_username">Email or Username</string>
+    <string name="group_chat">Group chat</string>
+    <string name="you">You</string>
     <string name="error_participant_not_found">Participant not found!</string>
 
 </resources>

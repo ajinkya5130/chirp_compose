@@ -21,7 +21,7 @@ import com.plcoding.core.presentation.utils.UiText
  * @property canAddParticipant Flag indicating whether the current search query allows adding a participant.
  * @property currentSearchResult The current participant search result, if any.
  * @property searchError Error message to display if participant search fails.
- * @property isCretingChat Flag indicating whether the chat creation process is in progress.
+ * @property isCreatingChat Flag indicating whether the chat creation process is in progress.
  */
 data class CreateChatScreenState(
     val queryTexState: TextFieldState = TextFieldState(),
@@ -31,6 +31,7 @@ data class CreateChatScreenState(
     val canAddParticipant: Boolean = false,
     val currentSearchResult: ChatParticipantUi? = null,
     val searchError: UiText? = null,
-    val isCretingChat: Boolean = false,
+    val isCreatingChat: Boolean = false,
+    val createChatError: UiText? = null,
 
     )

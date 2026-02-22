@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.error_participant_not_found
 import com.plcoding.chat.domain.ChatParticipantService
+import com.plcoding.chat.domain.ChatService
 import com.plcoding.chat.presentation.mappers.toUi
 import com.plcoding.core.domain.utils.DataError
 import com.plcoding.core.domain.utils.onFailure
@@ -18,12 +19,14 @@ import com.plcoding.core.domain.utils.onSuccess
 import com.plcoding.core.presentation.utils.UiText
 import com.plcoding.core.presentation.utils.toUiText
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -38,13 +41,17 @@ import kotlin.time.Duration.Companion.seconds
  * user actions through the [onAction] method.
  */
 class CreateChatViewModel(
-    val chatParticipantService: ChatParticipantService,
+    private val chatParticipantService: ChatParticipantService,
+    private val chatService: ChatService,
 ) : ViewModel() {
 
     /**
      * Flag to track whether initial data has been loaded to prevent redundant loading.
      */
     private var hasLoadedInitialData = false
+
+    private val eventChannel = Channel<CreateChatEvent>()
+    val events = eventChannel.receiveAsFlow()
 
     /**
      * Internal mutable state flow for managing the create chat screen state.
@@ -142,15 +149,48 @@ class CreateChatViewModel(
     fun onAction(action: CreateChatScreenAction) {
         when (action) {
             CreateChatScreenAction.OnCreateChatClick -> {
-
+                createChat()
             }
 
             CreateChatScreenAction.onAddClick -> {
                 addParticipants()
             }
 
-            CreateChatScreenAction.onDismissDialog -> Unit
+            else -> Unit
         }
+    }
+
+    private fun createChat() {
+        val userIds = state.value.selectedParticipants.map { it.id }
+
+        if (userIds.isEmpty()) return
+
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    isCreatingChat = true,
+                    canAddParticipant = false
+                )
+            }
+            chatService.createChat(userIds)
+                .onSuccess { chat ->
+                    _state.update { it.copy(isCreatingChat = false) }
+                    eventChannel.send(CreateChatEvent.OnCreateChatClick(chat))
+                }
+                .onFailure { error ->
+                    _state.update {
+                        it.copy(
+                            isCreatingChat = false,
+                            canAddParticipant = it.currentSearchResult != null && it.isSearchingParticipants.not(),
+                            createChatError = error.toUiText()
+                        )
+                    }
+
+
+                }
+        }
+
+
     }
 
     private fun addParticipants() {

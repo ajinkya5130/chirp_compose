@@ -26,6 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.cancel
 import chirp.feature.chat.presentation.generated.resources.create_chat
+import com.plcoding.chat.models.ChatResponseModel
 import com.plcoding.chat.presentation.components.ChatMemberSearchSection
 import com.plcoding.chat.presentation.components.ChatParticipantSelectionSection
 import com.plcoding.chat.presentation.components.ManageChatButtonSection
@@ -38,6 +39,7 @@ import com.plcoding.core.designsystem.components.layouts.ChirpHorizontalDivider
 import com.plcoding.core.designsystem.dimesions.LocalDim
 import com.plcoding.core.designsystem.theme.ChirpTheme
 import com.plcoding.core.presentation.utils.DeviceConfiguration
+import com.plcoding.core.presentation.utils.ObserveAsEvent
 import com.plcoding.core.presentation.utils.clearFocusOnTap
 import com.plcoding.core.presentation.utils.rememberDeviceConfiguration
 import org.jetbrains.compose.resources.stringResource
@@ -57,9 +59,21 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CreateChatScreenRoot(
     viewModel: CreateChatViewModel = koinViewModel(),
-    onDismiss: () -> Unit,
+    onDismiss: () -> Unit = {},
+    onChatCreated: (chat: ChatResponseModel) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    ObserveAsEvent(
+        flow = viewModel.events,
+        onEvent = { event ->
+            when (event) {
+                is CreateChatEvent.OnCreateChatClick -> {
+                    onChatCreated(event.chat)
+                }
+            }
+        }
+    )
 
     ChirpAdaptiveDialogSheetLayout(
         onDismiss = {
@@ -151,7 +165,7 @@ private fun CreateChatScreen(
                     text = stringResource(Res.string.create_chat),
                     onClick = { onAction(CreateChatScreenAction.OnCreateChatClick) },
                     enabled = state.selectedParticipants.isNotEmpty(),
-                    isLoading = state.isCretingChat
+                    isLoading = state.isCreatingChat
                 )
             },
             secondaryButton = {
@@ -160,7 +174,8 @@ private fun CreateChatScreen(
                     onClick = { onAction(CreateChatScreenAction.onDismissDialog) },
                     style = ChirpButtonStyle.SECONDARY
                 )
-            }
+            },
+            error = state.createChatError?.asString()
         )
     }
 
